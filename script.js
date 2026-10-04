@@ -213,7 +213,7 @@ function handleSymbolClick(button, symbol, shared) {
 
 function nextRound() {
   if (deck.length < 2) {
-    deck = createDeck();
+    deck = shuffle(createDeck());
   }
 
   currentCards = [deck.pop(), deck.pop()];
