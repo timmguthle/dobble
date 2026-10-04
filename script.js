@@ -128,16 +128,26 @@ function renderStatistics() {
     bySymbol.set(result.symbol, entry);
   });
 
-  [...bySymbol.entries()]
-    .map(([symbol, entry]) => ({ symbol, average: entry.total / entry.count, count: entry.count }))
-    .sort((a, b) => a.average - b.average)
-    .slice(0, 10)
+  SYMBOL_FILES
+    .map((_, symbol) => {
+      const entry = bySymbol.get(symbol);
+      return entry
+        ? { symbol, average: entry.total / entry.count, count: entry.count }
+        : { symbol, average: null, count: 0 };
+    })
+    .sort((a, b) => {
+      if (a.average === null) return b.average === null ? a.symbol - b.symbol : 1;
+      if (b.average === null) return -1;
+      return a.average - b.average;
+    })
     .forEach((entry) => {
       const item = document.createElement("li");
       const name = document.createElement("strong");
       name.textContent = symbolName(entry.symbol).replaceAll("_", " ");
       const time = document.createElement("span");
-      time.textContent = `${formatTime(entry.average)} average · ${entry.count} find${entry.count === 1 ? "" : "s"}`;
+      time.textContent = entry.count === 0
+        ? "No data yet"
+        : `${formatTime(entry.average)} average · ${entry.count} find${entry.count === 1 ? "" : "s"}`;
       item.append(name, time);
       symbolRankingElement.append(item);
     });
