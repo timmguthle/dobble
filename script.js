@@ -18,11 +18,25 @@ const scoreElement = document.querySelector("#score");
 const statusElement = document.querySelector("#status");
 const roundElement = document.querySelector("#round-counter");
 const newGameButton = document.querySelector("#new-game");
+const pauseButton = document.querySelector("#pause-game");
+const statisticsElement = document.querySelector("#statistics");
+const resumeButton = document.querySelector("#resume-game");
+const clearStatisticsButton = document.querySelector("#clear-statistics");
+const averageTimeElement = document.querySelector("#average-time");
+const roundsPlayedElement = document.querySelector("#rounds-played");
+const fastestTimeElement = document.querySelector("#fastest-time");
+const slowestTimeElement = document.querySelector("#slowest-time");
+const symbolRankingElement = document.querySelector("#symbol-ranking");
 
 let deck = [];
 let currentCards = [];
 let score = 0;
 let round = 1;
+let timerStartedAt = 0;
+let elapsedBeforePause = 0;
+let isPaused = false;
+let roundResolved = false;
+const STORAGE_KEY = "dobble-statistics";
 
 function symbolName(index) {
   return SYMBOL_FILES[index];
@@ -67,6 +81,68 @@ function sharedSymbol(firstCard, secondCard) {
   return firstCard.find((symbol) => secondCard.includes(symbol));
 }
 
+function getSavedResults() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveResult(symbol, time) {
+  const results = getSavedResults();
+  results.push({ symbol, time, date: new Date().toISOString() });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(results));
+}
+
+function formatTime(time) {
+  return `${time.toFixed(2)} s`;
+}
+
+function renderStatistics() {
+  const results = getSavedResults();
+  roundsPlayedElement.textContent = results.length;
+  symbolRankingElement.replaceChildren();
+
+  if (results.length === 0) {
+    averageTimeElement.textContent = "—";
+    fastestTimeElement.textContent = "—";
+    slowestTimeElement.textContent = "—";
+    const empty = document.createElement("li");
+    empty.textContent = "Find a few symbols to build your ranking.";
+    symbolRankingElement.append(empty);
+    return;
+  }
+
+  const times = results.map((result) => result.time);
+  averageTimeElement.textContent = formatTime(times.reduce((sum, time) => sum + time, 0) / times.length);
+  fastestTimeElement.textContent = formatTime(Math.min(...times));
+  slowestTimeElement.textContent = formatTime(Math.max(...times));
+
+  const bySymbol = new Map();
+  results.forEach((result) => {
+    const entry = bySymbol.get(result.symbol) || { total: 0, count: 0 };
+    entry.total += result.time;
+    entry.count += 1;
+    bySymbol.set(result.symbol, entry);
+  });
+
+  [...bySymbol.entries()]
+    .map(([symbol, entry]) => ({ symbol, average: entry.total / entry.count, count: entry.count }))
+    .sort((a, b) => a.average - b.average)
+    .slice(0, 10)
+    .forEach((entry) => {
+      const item = document.createElement("li");
+      const name = document.createElement("strong");
+      name.textContent = symbolName(entry.symbol).replaceAll("_", " ");
+      const time = document.createElement("span");
+      time.textContent = `${formatTime(entry.average)} average · ${entry.count} find${entry.count === 1 ? "" : "s"}`;
+      item.append(name, time);
+      symbolRankingElement.append(item);
+    });
+}
+
 function renderCard(element, symbols, shared) {
   element.replaceChildren();
   const placements = [
@@ -105,7 +181,12 @@ function renderCard(element, symbols, shared) {
 }
 
 function handleSymbolClick(button, symbol, shared) {
+  if (isPaused || roundResolved) return;
+
   if (symbol === shared) {
+    roundResolved = true;
+    const time = (performance.now() - timerStartedAt) / 1000;
+    saveResult(symbol, time);
     score += 1;
     scoreElement.textContent = score;
     button.classList.add("is-correct");
@@ -131,16 +212,49 @@ function nextRound() {
   renderCard(cardTwo, currentCards[1], shared);
   roundElement.textContent = `Round ${round}`;
   round += 1;
+  roundResolved = false;
+  elapsedBeforePause = 0;
+  timerStartedAt = performance.now();
   statusElement.textContent = "There is exactly one symbol shared by both cards.";
 }
 
 function startGame() {
+  isPaused = false;
   score = 0;
   round = 1;
   scoreElement.textContent = score;
   deck = shuffle(createDeck());
   nextRound();
+  statisticsElement.hidden = true;
+  pauseButton.hidden = false;
+  pauseButton.textContent = "Pause game";
+  renderStatistics();
+}
+
+function pauseGame() {
+  if (isPaused || roundResolved) return;
+  elapsedBeforePause = performance.now() - timerStartedAt;
+  isPaused = true;
+  statusElement.textContent = "Game paused. Review your statistics below.";
+  pauseButton.hidden = true;
+  statisticsElement.hidden = false;
+  renderStatistics();
+}
+
+function resumeGame() {
+  if (!isPaused) return;
+  timerStartedAt = performance.now() - elapsedBeforePause;
+  isPaused = false;
+  statusElement.textContent = "There is exactly one symbol shared by both cards.";
+  pauseButton.hidden = false;
+  statisticsElement.hidden = true;
 }
 
 newGameButton.addEventListener("click", startGame);
+pauseButton.addEventListener("click", pauseGame);
+resumeButton.addEventListener("click", resumeGame);
+clearStatisticsButton.addEventListener("click", () => {
+  localStorage.removeItem(STORAGE_KEY);
+  renderStatistics();
+});
 startGame();

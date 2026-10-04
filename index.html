@@ -40,8 +40,34 @@
         <button class="button button-secondary" id="new-game" type="button">
           New game
         </button>
+        <button class="button button-secondary" id="pause-game" type="button">
+          Pause game
+        </button>
         <p class="round-counter" id="round-counter">Round 1</p>
       </div>
+
+      <section class="statistics" id="statistics" hidden aria-labelledby="statistics-title">
+        <div class="statistics-header">
+          <div>
+            <p class="eyebrow">Your results</p>
+            <h2 id="statistics-title">Statistics</h2>
+          </div>
+          <button class="button button-light" id="resume-game" type="button">
+            Resume game
+          </button>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><span>Average time</span><strong id="average-time">—</strong></div>
+          <div class="stat-card"><span>Rounds played</span><strong id="rounds-played">0</strong></div>
+          <div class="stat-card"><span>Fastest find</span><strong id="fastest-time">—</strong></div>
+          <div class="stat-card"><span>Slowest find</span><strong id="slowest-time">—</strong></div>
+        </div>
+        <h3>Best symbols</h3>
+        <ol class="symbol-ranking" id="symbol-ranking"></ol>
+        <button class="button button-text" id="clear-statistics" type="button">
+          Clear saved statistics
+        </button>
+      </section>
     </main>
 
     <script src="script.js"></script>
