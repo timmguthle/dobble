@@ -15,6 +15,8 @@ const ASSET_PATH = "dobble_svgs/";
 const cardOne = document.querySelector("#card-one");
 const cardTwo = document.querySelector("#card-two");
 const cardsElement = document.querySelector("#cards");
+const deckOverlayElement = document.querySelector("#deck-overlay");
+const deckOverlayMessageElement = document.querySelector("#deck-overlay-message");
 const scoreElement = document.querySelector("#score");
 const mistakesLabelElement = document.querySelector("#mistakes-label");
 const mistakesElement = document.querySelector("#mistakes");
@@ -155,7 +157,9 @@ function renderStatistics(results = mode === "training" ? getSavedResults() : se
   symbolsToShow
     .map((symbol) => {
       const entry = bySymbol.get(symbol);
-      return { symbol, average: entry.total / entry.count, count: entry.count };
+      return entry
+        ? { symbol, average: entry.total / entry.count, count: entry.count }
+        : { symbol, average: null, count: 0 };
     })
     .sort((a, b) => {
       if (a.average === null) return b.average === null ? a.symbol - b.symbol : 1;
@@ -262,7 +266,9 @@ function handleSymbolClick(button, symbol, shared) {
       roundResolved = true;
       isPaused = true;
       statusElement.textContent = "You lost this game after five mistakes.";
+      showDeckOverlay("Du bist noch schlechter als Christoph!");
       pauseButton.hidden = true;
+      newGameButton.hidden = false;
       statisticsElement.hidden = false;
       resumeButton.hidden = true;
       renderStatistics(sessionResults);
@@ -309,6 +315,7 @@ function beginGame() {
   sessionResults = [];
   nextRound();
   cardsElement.hidden = false;
+  hideDeckOverlay();
   statisticsElement.hidden = true;
   pauseButton.hidden = false;
   resumeButton.hidden = false;
@@ -327,8 +334,9 @@ function startDeckCountdown() {
   const token = countdownToken;
   window.clearInterval(countdownInterval);
   startDeckGameButton.disabled = true;
+  newGameButton.hidden = true;
   let seconds = 3;
-  statusElement.textContent = `Game starts in ${seconds}...`;
+  showDeckOverlay(`Game starts in ${seconds}...`);
   countdownInterval = window.setInterval(() => {
     if (token !== countdownToken) {
       window.clearInterval(countdownInterval);
@@ -341,8 +349,17 @@ function startDeckCountdown() {
       beginGame();
       return;
     }
-    statusElement.textContent = `Game starts in ${seconds}...`;
+    showDeckOverlay(`Game starts in ${seconds}...`);
   }, 1000);
+}
+
+function showDeckOverlay(message) {
+  deckOverlayMessageElement.textContent = message;
+  deckOverlayElement.hidden = false;
+}
+
+function hideDeckOverlay() {
+  deckOverlayElement.hidden = true;
 }
 
 function startGame() {
@@ -355,8 +372,13 @@ function startGame() {
 
 function finishDeckGame() {
   isPaused = true;
-  statusElement.textContent = "Deck complete! Here are your statistics for this game.";
+  const message = score >= 28
+    ? "Deck complete!"
+    : "You lost this game.";
+  statusElement.textContent = `${message} Here are your statistics for this game.`;
+  showDeckOverlay(message);
   pauseButton.hidden = true;
+  newGameButton.hidden = false;
   statisticsElement.hidden = false;
   resumeButton.hidden = true;
   renderStatistics(sessionResults);
@@ -370,7 +392,10 @@ function selectMode(nextMode) {
   trainingModeButton.classList.toggle("is-active", mode === "training");
   deckModeButton.classList.toggle("is-active", mode === "deck");
   if (mode === "deck") {
-    cardsElement.hidden = true;
+    cardsElement.hidden = false;
+    cardOne.replaceChildren();
+    cardTwo.replaceChildren();
+    showDeckOverlay("Press Start game when you are ready.");
     startDeckGameButton.hidden = false;
     startDeckGameButton.disabled = false;
     newGameButton.hidden = true;
