@@ -309,6 +309,52 @@ h1 {
   font-size: 0.9rem;
 }
 
+.deck-timeline {
+  margin-top: 32px;
+}
+
+.timeline {
+  display: grid;
+  gap: 9px;
+}
+
+.timeline-row {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(125px, 1fr) minmax(100px, 2fr) 52px;
+}
+
+.timeline-label,
+.timeline-time {
+  font-size: 0.82rem;
+}
+
+.timeline-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timeline-time {
+  color: #5c6472;
+  text-align: right;
+}
+
+.timeline-track {
+  background: #e4ded3;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.timeline-bar {
+  background: #ed6a3a;
+  border-radius: inherit;
+  height: 100%;
+  min-width: 8px;
+}
+
 @keyframes shake {
   25% {
     transform: translate(calc(-50% - 4px), -50%);
@@ -354,5 +400,10 @@ h1 {
 @media (max-width: 420px) {
   .stat-grid {
     grid-template-columns: 1fr;
+  }
+
+  .timeline-row {
+    gap: 6px;
+    grid-template-columns: minmax(105px, 1fr) minmax(65px, 1.4fr) 48px;
   }
 }

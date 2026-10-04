@@ -30,6 +30,8 @@ const fastestTimeElement = document.querySelector("#fastest-time");
 const slowestTimeElement = document.querySelector("#slowest-time");
 const symbolRankingElement = document.querySelector("#symbol-ranking");
 const statisticsTitleElement = document.querySelector("#statistics-title");
+const deckTimelineElement = document.querySelector("#deck-timeline");
+const timelineElement = document.querySelector("#timeline");
 
 let deck = [];
 let currentCards = [];
@@ -113,6 +115,8 @@ function formatTime(time) {
 function renderStatistics(results = mode === "training" ? getSavedResults() : sessionResults) {
   roundsPlayedElement.textContent = results.length;
   symbolRankingElement.replaceChildren();
+  deckTimelineElement.hidden = mode !== "deck";
+  timelineElement.replaceChildren();
 
   if (results.length === 0) {
     averageTimeElement.textContent = "—";
@@ -160,6 +164,31 @@ function renderStatistics(results = mode === "training" ? getSavedResults() : se
       item.append(name, time);
       symbolRankingElement.append(item);
     });
+
+  if (mode === "deck") {
+    const slowestTime = Math.max(...times);
+    results.forEach((result, index) => {
+      const row = document.createElement("div");
+      row.className = "timeline-row";
+
+      const label = document.createElement("div");
+      label.className = "timeline-label";
+      label.textContent = `${index + 1}. ${symbolName(result.symbol).replaceAll("_", " ")}`;
+
+      const track = document.createElement("div");
+      track.className = "timeline-track";
+      const bar = document.createElement("div");
+      bar.className = "timeline-bar";
+      bar.style.width = `${Math.max(8, (result.time / slowestTime) * 100)}%`;
+      track.append(bar);
+
+      const time = document.createElement("span");
+      time.className = "timeline-time";
+      time.textContent = formatTime(result.time);
+      row.append(label, track, time);
+      timelineElement.append(row);
+    });
+  }
 }
 
 function renderCard(element, symbols, shared) {
