@@ -2,11 +2,13 @@
 
 A small, static browser game built from the SVG symbols in `dobble_svgs/`.
 
-The game records the time for every correct find in the browser's local storage.
-Use **Pause game** to view the current average, fastest and slowest finds, and
-the statistics for all symbols, ordered by average finding time. Symbols that
-have not been found yet are shown as “No data yet”. Use **Clear saved
-statistics** to remove the saved results from that browser.
+The game records the time for every correct find in the browser's local storage
+in **Training** mode. Use **Pause game** to view the current average, fastest
+and slowest finds, and the statistics for all symbols, ordered by average
+finding time. Symbols that have not been found yet are shown as “No data yet”.
+**One deck** mode uses every possible two-card round in one shuffled deck
+(28 rounds, 56 cards) and shows statistics for that game when the deck is
+complete. Its results are not added to the Training statistics.
 
 ## Play locally
 
