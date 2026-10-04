@@ -14,10 +14,14 @@ const ORDER = 7;
 const ASSET_PATH = "dobble_svgs/";
 const cardOne = document.querySelector("#card-one");
 const cardTwo = document.querySelector("#card-two");
+const cardsElement = document.querySelector("#cards");
 const scoreElement = document.querySelector("#score");
+const mistakesLabelElement = document.querySelector("#mistakes-label");
+const mistakesElement = document.querySelector("#mistakes");
 const statusElement = document.querySelector("#status");
 const roundElement = document.querySelector("#round-counter");
 const newGameButton = document.querySelector("#new-game");
+const startDeckGameButton = document.querySelector("#start-deck-game");
 const trainingModeButton = document.querySelector("#training-mode");
 const deckModeButton = document.querySelector("#deck-mode");
 const pauseButton = document.querySelector("#pause-game");
@@ -43,6 +47,10 @@ let timerStartedAt = 0;
 let elapsedBeforePause = 0;
 let isPaused = false;
 let roundResolved = false;
+let mistakeCount = 0;
+let countdownInterval;
+let countdownToken = 0;
+let hasStartedTimer = false;
 const STORAGE_KEY = "dobble-training-statistics";
 
 function symbolName(index) {
@@ -101,7 +109,6 @@ function saveResult(symbol, time) {
   const result = { symbol, time, date: new Date().toISOString() };
   if (mode === "deck") {
     sessionResults.push(result);
-    return;
   }
   const results = getSavedResults();
   results.push(result);
@@ -141,12 +148,14 @@ function renderStatistics(results = mode === "training" ? getSavedResults() : se
     bySymbol.set(result.symbol, entry);
   });
 
-  SYMBOL_FILES
-    .map((_, symbol) => {
+  const symbolsToShow = mode === "deck"
+    ? [...bySymbol.keys()]
+    : SYMBOL_FILES.map((_, symbol) => symbol);
+
+  symbolsToShow
+    .map((symbol) => {
       const entry = bySymbol.get(symbol);
-      return entry
-        ? { symbol, average: entry.total / entry.count, count: entry.count }
-        : { symbol, average: null, count: 0 };
+      return { symbol, average: entry.total / entry.count, count: entry.count };
     })
     .sort((a, b) => {
       if (a.average === null) return b.average === null ? a.symbol - b.symbol : 1;
@@ -229,18 +238,36 @@ function renderCard(element, symbols, shared) {
 }
 
 function handleSymbolClick(button, symbol, shared) {
-  if (isPaused || roundResolved) return;
+  if (isPaused || roundResolved || cardsElement.hidden) return;
 
   if (symbol === shared) {
     roundResolved = true;
-    const time = (performance.now() - timerStartedAt) / 1000;
-    saveResult(symbol, time);
+    if (mode === "deck" || hasStartedTimer) {
+      const time = (performance.now() - timerStartedAt) / 1000;
+      saveResult(symbol, time);
+    }
+    hasStartedTimer = true;
     score += 1;
     scoreElement.textContent = score;
     button.classList.add("is-correct");
     statusElement.textContent = "Correct! Loading the next pair...";
     window.setTimeout(nextRound, 500);
     return;
+  }
+
+  if (mode === "deck") {
+    mistakeCount += 1;
+    mistakesElement.textContent = `${mistakeCount} / 5`;
+    if (mistakeCount >= 5) {
+      roundResolved = true;
+      isPaused = true;
+      statusElement.textContent = "You lost this game after five mistakes.";
+      pauseButton.hidden = true;
+      statisticsElement.hidden = false;
+      resumeButton.hidden = true;
+      renderStatistics(sessionResults);
+      return;
+    }
   }
 
   button.classList.remove("is-wrong");
@@ -270,14 +297,18 @@ function nextRound() {
   statusElement.textContent = "There is exactly one symbol shared by both cards.";
 }
 
-function startGame() {
+function beginGame() {
   isPaused = false;
   score = 0;
   round = 1;
   scoreElement.textContent = score;
+  mistakeCount = 0;
+  mistakesElement.textContent = "0 / 5";
+  hasStartedTimer = mode === "deck";
   deck = shuffle(createDeck());
   sessionResults = [];
   nextRound();
+  cardsElement.hidden = false;
   statisticsElement.hidden = true;
   pauseButton.hidden = false;
   resumeButton.hidden = false;
@@ -291,6 +322,37 @@ function startGame() {
   renderStatistics();
 }
 
+function startDeckCountdown() {
+  countdownToken += 1;
+  const token = countdownToken;
+  window.clearInterval(countdownInterval);
+  startDeckGameButton.disabled = true;
+  let seconds = 3;
+  statusElement.textContent = `Game starts in ${seconds}...`;
+  countdownInterval = window.setInterval(() => {
+    if (token !== countdownToken) {
+      window.clearInterval(countdownInterval);
+      return;
+    }
+    seconds -= 1;
+    if (seconds === 0) {
+      window.clearInterval(countdownInterval);
+      startDeckGameButton.hidden = true;
+      beginGame();
+      return;
+    }
+    statusElement.textContent = `Game starts in ${seconds}...`;
+  }, 1000);
+}
+
+function startGame() {
+  if (mode === "deck") {
+    startDeckCountdown();
+    return;
+  }
+  beginGame();
+}
+
 function finishDeckGame() {
   isPaused = true;
   statusElement.textContent = "Deck complete! Here are your statistics for this game.";
@@ -302,9 +364,28 @@ function finishDeckGame() {
 
 function selectMode(nextMode) {
   if (mode === nextMode) return;
+  countdownToken += 1;
+  window.clearInterval(countdownInterval);
   mode = nextMode;
   trainingModeButton.classList.toggle("is-active", mode === "training");
   deckModeButton.classList.toggle("is-active", mode === "deck");
+  if (mode === "deck") {
+    cardsElement.hidden = true;
+    startDeckGameButton.hidden = false;
+    startDeckGameButton.disabled = false;
+    newGameButton.hidden = true;
+    pauseButton.hidden = true;
+    statisticsElement.hidden = true;
+    mistakesLabelElement.hidden = false;
+    mistakesElement.hidden = false;
+    statusElement.textContent = "Press Start game when you are ready.";
+    return;
+  }
+  newGameButton.hidden = false;
+  startDeckGameButton.hidden = true;
+  pauseButton.hidden = false;
+  mistakesLabelElement.hidden = true;
+  mistakesElement.hidden = true;
   startGame();
 }
 
@@ -329,6 +410,7 @@ function resumeGame() {
 }
 
 newGameButton.addEventListener("click", startGame);
+startDeckGameButton.addEventListener("click", startDeckCountdown);
 trainingModeButton.addEventListener("click", () => selectMode("training"));
 deckModeButton.addEventListener("click", () => selectMode("deck"));
 pauseButton.addEventListener("click", pauseGame);
@@ -341,4 +423,4 @@ clearStatisticsButton.addEventListener("click", () => {
   }
   renderStatistics(mode === "training" ? getSavedResults() : sessionResults);
 });
-startGame();
+beginGame();

@@ -20,6 +20,8 @@
         <div class="score-panel" aria-live="polite">
           <span>Score</span>
           <strong id="score">0</strong>
+          <span id="mistakes-label" hidden>Mistakes</span>
+          <strong id="mistakes" hidden>0 / 5</strong>
         </div>
       </header>
 
@@ -39,7 +41,7 @@
         </button>
       </div>
 
-      <section class="cards" aria-label="Dobble cards">
+      <section class="cards" aria-label="Dobble cards" id="cards" hidden>
         <div class="card" id="card-one" aria-label="First Dobble card"></div>
         <div class="versus" aria-hidden="true">VS</div>
         <div class="card" id="card-two" aria-label="Second Dobble card"></div>
@@ -48,6 +50,9 @@
       <div class="controls">
         <button class="button button-secondary" id="new-game" type="button">
           New game
+        </button>
+        <button class="button button-secondary" id="start-deck-game" type="button" hidden>
+          Start game
         </button>
         <button class="button button-secondary" id="pause-game" type="button">
           Pause game

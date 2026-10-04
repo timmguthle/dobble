@@ -1,14 +1,16 @@
 # Dobble
 
-A small, static browser game built from the SVG symbols in `dobble_svgs/`.
+A small, static browser game based on dobble
 
-The game records the time for every correct find in the browser's local storage
-in **Training** mode. Use **Pause game** to view the current average, fastest
-and slowest finds, and the statistics for all symbols, ordered by average
-finding time. Symbols that have not been found yet are shown as “No data yet”.
+The game records finding times in the browser's local storage in **Training**
+mode. The first Training pair is a warm-up and is not timed. Use **Pause game**
+to view the current average, fastest and slowest finds, and the statistics for
+all symbols, ordered by average finding time. Symbols that have not been found yet are shown as “No data yet”.
 **One deck** mode uses every possible two-card round in one shuffled deck
-(28 rounds, 56 cards) and shows statistics for that game when the deck is
-complete. Its results are not added to the Training statistics.
+(28 rounds, 56 cards), starts after a three-second countdown, and allows five
+mistakes before the game is lost. It shows statistics for that game when the
+deck is complete (or lost), including only symbols encountered in that game.
+Its results are also added to the persistent Training statistics.
 
 ## Play locally
 
@@ -22,13 +24,4 @@ Then visit <http://localhost:8000>.
 
 ## Publish with GitHub Pages
 
-1. Create a GitHub repository and push this project to its `main` branch.
-2. In the repository, open **Settings → Pages**.
-3. Under **Build and deployment**, choose **GitHub Actions** as the source.
-4. The workflow in `.github/workflows/deploy-pages.yml` will publish the site after each push to `main`.
-
-The generated site URL will be:
-
-```text
-https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME/
-```
+visit <https://timmguthle.github.io/dobble/>

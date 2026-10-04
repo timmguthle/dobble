@@ -77,6 +77,10 @@ h1 {
   line-height: 1.1;
 }
 
+.score-panel strong + span {
+  margin-top: 8px;
+}
+
 .instructions {
   margin: 44px auto 30px;
   max-width: 580px;
