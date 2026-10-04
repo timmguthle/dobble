@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
+<g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(0 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(30 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(60 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(90 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(120 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(150 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(180 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(210 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(240 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(270 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(300 100 100)"/>
+<ellipse cx="100" cy="42" rx="12" ry="30" fill="#fff" transform="rotate(330 100 100)"/>
+<circle cx="100" cy="100" r="24" fill="#ffcf1f" />
+<circle cx="92" cy="94" r="4" fill="#e69a00" stroke="none"/>
+<circle cx="108" cy="96" r="4" fill="#e69a00" stroke="none"/>
+<circle cx="100" cy="110" r="4" fill="#e69a00" stroke="none"/>
+
+</g>
+</svg>

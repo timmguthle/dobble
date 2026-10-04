@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
+<g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+<path d="M100,100 L184.0,100.0" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M100,100 L159.4,159.4" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M100,100 L100.0,184.0" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M100,100 L40.6,159.4" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M100,100 L16.0,100.0" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M100,100 L40.6,40.6" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M100,100 L100.0,16.0" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M100,100 L159.4,40.6" fill="none" stroke="#7a56a6" stroke-width="4" />
+<path d="M122.0,100.0 Q115.9,106.6 115.6,115.6 Q106.6,115.9 100.0,122.0 Q93.4,115.9 84.4,115.6 Q84.1,106.6 78.0,100.0 Q84.1,93.4 84.4,84.4 Q93.4,84.1 100.0,78.0 Q106.6,84.1 115.6,84.4 Q115.9,93.4 122.0,100.0 " fill="none" stroke="#7a56a6" stroke-width="3.5" />
+<path d="M142.0,100.0 Q130.3,112.5 129.7,129.7 Q112.5,130.3 100.0,142.0 Q87.5,130.3 70.3,129.7 Q69.7,112.5 58.0,100.0 Q69.7,87.5 70.3,70.3 Q87.5,69.7 100.0,58.0 Q112.5,69.7 129.7,70.3 Q130.3,87.5 142.0,100.0 " fill="none" stroke="#7a56a6" stroke-width="3.5" />
+<path d="M162.0,100.0 Q144.7,118.5 143.8,143.8 Q118.5,144.7 100.0,162.0 Q81.5,144.7 56.2,143.8 Q55.3,118.5 38.0,100.0 Q55.3,81.5 56.2,56.2 Q81.5,55.3 100.0,38.0 Q118.5,55.3 143.8,56.2 Q144.7,81.5 162.0,100.0 " fill="none" stroke="#7a56a6" stroke-width="3.5" />
+<path d="M182.0,100.0 Q159.1,124.5 158.0,158.0 Q124.5,159.1 100.0,182.0 Q75.5,159.1 42.0,158.0 Q40.9,124.5 18.0,100.0 Q40.9,75.5 42.0,42.0 Q75.5,40.9 100.0,18.0 Q124.5,40.9 158.0,42.0 Q159.1,75.5 182.0,100.0 " fill="none" stroke="#7a56a6" stroke-width="3.5" />
+
+</g>
+</svg>

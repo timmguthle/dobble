@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 30 320 450" width="320" height="450">
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <!-- left arm -->
+    <path d="M192,342 C150,345 118,335 104,300 C92,265 92,212 108,188 C122,168 150,172 164,205 C170,225 172,245 180,252 L192,252 Z"
+          fill="#5cb54a" stroke="#2f6f2a" stroke-width="5"/>
+    <path d="M122,285 C148,300 172,298 192,290" fill="none" stroke="#3e8f35" stroke-width="5"/>
+    <path d="M120,300 C145,318 172,318 192,312" fill="none" stroke="#3e8f35" stroke-width="3" opacity="0.7"/>
+    <ellipse cx="125" cy="215" rx="7" ry="22" fill="#c9eabf" opacity="0.7" transform="rotate(8 125 215)"/>
+    <ellipse cx="121" cy="268" rx="6" ry="14" fill="#c9eabf" opacity="0.6"/>
+
+    <!-- right arm -->
+    <path d="M268,185 C272,150 285,128 310,124 C335,120 350,140 352,175 C354,215 345,245 322,254 C300,262 280,255 268,245 Z"
+          fill="#4aa03c" stroke="#2f6f2a" stroke-width="5"/>
+    <path d="M290,215 C305,235 330,238 346,205 C352,185 350,160 340,145 C345,175 340,205 318,222 C305,228 296,224 290,215 Z"
+          fill="#3e8f35" opacity="0.8"/>
+    <path d="M272,190 C285,200 296,212 300,225" fill="none" stroke="#2f6f2a" stroke-width="4"/>
+
+    <!-- trunk -->
+    <path d="M196,100 C196,60 212,43 230,44 C252,46 266,95 270,170 L274,440 C274,448 270,455 262,456 L205,456 C196,456 190,448 191,440 Z"
+          fill="#5cb54a" stroke="#2f6f2a" stroke-width="5"/>
+    <!-- shaded right side -->
+    <path d="M238,52 C256,75 266,120 270,170 L274,440 C274,448 270,455 262,456 L240,456 C236,350 240,150 238,52 Z"
+          fill="#3e8f35" opacity="0.85"/>
+    <!-- rib line -->
+    <path d="M228,48 C221,150 221,300 224,452" fill="none" stroke="#2f6f2a" stroke-width="4"/>
+    <!-- highlight -->
+    <path d="M208,80 C204,150 204,250 207,330" fill="none" stroke="#8fd47c" stroke-width="5" opacity="0.6"/>
+
+    <!-- base tufts -->
+    <path d="M158,445 L172,462 M178,452 L190,466 M200,458 L206,470 M232,458 L238,468 M255,452 L262,464 M270,442 L284,452"
+          fill="none" stroke="#2f6f2a" stroke-width="4"/>
+
+    <!-- spines -->
+    <g stroke="#2f6f2a" stroke-width="4" fill="none">
+      <path d="M185,132 L205,132"/>
+      <path d="M262,148 L276,152"/>
+      <path d="M190,210 L206,208"/>
+      <path d="M240,118 L236,128"/>
+      <path d="M268,365 L286,367"/>
+      <path d="M270,402 L282,404"/>
+      <path d="M92,205 L106,208"/>
+      <path d="M82,280 L100,280"/>
+      <path d="M130,340 L136,350"/>
+      <path d="M298,138 L312,136"/>
+      <path d="M345,190 L360,192"/>
+      <path d="M318,254 L322,264"/>
+      <path d="M180,258 L190,262"/>
+    </g>
+  </g>
+</svg>

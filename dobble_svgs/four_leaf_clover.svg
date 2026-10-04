@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
+<g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+<path d="M100,100 C102,140 112,164 124,184" fill="none" stroke="#2b8a37" stroke-width="7" />
+<path d="M100,100 C60,96 54,50 80,42 C94,38 100,52 100,62 C100,52 106,38 120,42 C146,50 140,96 100,100 Z" fill="#3fae49" transform="rotate(45 100 100)"/>
+<path d="M100,96 L100,58" fill="none" stroke="#1f6b2a" stroke-width="3" transform="rotate(45 100 100)"/>
+<path d="M100,100 C60,96 54,50 80,42 C94,38 100,52 100,62 C100,52 106,38 120,42 C146,50 140,96 100,100 Z" fill="#3fae49" transform="rotate(135 100 100)"/>
+<path d="M100,96 L100,58" fill="none" stroke="#1f6b2a" stroke-width="3" transform="rotate(135 100 100)"/>
+<path d="M100,100 C60,96 54,50 80,42 C94,38 100,52 100,62 C100,52 106,38 120,42 C146,50 140,96 100,100 Z" fill="#3fae49" transform="rotate(225 100 100)"/>
+<path d="M100,96 L100,58" fill="none" stroke="#1f6b2a" stroke-width="3" transform="rotate(225 100 100)"/>
+<path d="M100,100 C60,96 54,50 80,42 C94,38 100,52 100,62 C100,52 106,38 120,42 C146,50 140,96 100,100 Z" fill="#3fae49" transform="rotate(315 100 100)"/>
+<path d="M100,96 L100,58" fill="none" stroke="#1f6b2a" stroke-width="3" transform="rotate(315 100 100)"/>
+
+</g>
+</svg>

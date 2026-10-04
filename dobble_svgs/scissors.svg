@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
+<g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+<polygon points="92,104 62,14 80,10 114,94" fill="#c4cde0" stroke="#222" stroke-width="10"/>
+<polygon points="108,104 138,14 120,10 86,94" fill="#c4cde0" stroke="#222" stroke-width="10"/>
+<polygon points="92,104 62,14 80,10 114,94" fill="#c4cde0" stroke="none"/>
+<polygon points="108,104 138,14 120,10 86,94" fill="#c4cde0" stroke="none"/>
+<path d="M100,100 L130,134" fill="none" stroke="#222" stroke-width="20"/>
+<path d="M100,100 L70,134" fill="none" stroke="#222" stroke-width="20"/>
+<path d="M100,100 L130,134" fill="none" stroke="#8e5bb5" stroke-width="10"/>
+<path d="M100,100 L70,134" fill="none" stroke="#8e5bb5" stroke-width="10"/>
+<path d="M115,152 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0" fill="none" stroke="#222" stroke-width="18"/>
+<path d="M45,152 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0" fill="none" stroke="#222" stroke-width="18"/>
+<path d="M115,152 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0" fill="none" stroke="#8e5bb5" stroke-width="8"/>
+<path d="M45,152 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0" fill="none" stroke="#8e5bb5" stroke-width="8"/>
+<circle cx="100" cy="100" r="5" fill="#888" stroke-width="3"/>
+
+</g>
+</svg>

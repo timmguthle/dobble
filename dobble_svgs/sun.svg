@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
+<g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+<polygon points="151.4,91.9 190.0,100.0 151.4,108.1" fill="#ffb81f" stroke-width="4"/>
+<polygon points="149.8,115.0 181.1,139.0 142.7,129.6" fill="#ffb81f" stroke-width="4"/>
+<polygon points="138.4,135.1 156.1,170.4 125.7,145.2" fill="#ffb81f" stroke-width="4"/>
+<polygon points="119.4,148.3 120.0,187.7 103.5,151.9" fill="#ffb81f" stroke-width="4"/>
+<polygon points="96.5,151.9 80.0,187.7 80.6,148.3" fill="#ffb81f" stroke-width="4"/>
+<polygon points="74.3,145.2 43.9,170.4 61.6,135.1" fill="#ffb81f" stroke-width="4"/>
+<polygon points="57.3,129.6 18.9,139.0 50.2,115.0" fill="#ffb81f" stroke-width="4"/>
+<polygon points="48.6,108.1 10.0,100.0 48.6,91.9" fill="#ffb81f" stroke-width="4"/>
+<polygon points="50.2,85.0 18.9,61.0 57.3,70.4" fill="#ffb81f" stroke-width="4"/>
+<polygon points="61.6,64.9 43.9,29.6 74.3,54.8" fill="#ffb81f" stroke-width="4"/>
+<polygon points="80.6,51.7 80.0,12.3 96.5,48.1" fill="#ffb81f" stroke-width="4"/>
+<polygon points="103.5,48.1 120.0,12.3 119.4,51.7" fill="#ffb81f" stroke-width="4"/>
+<polygon points="125.7,54.8 156.1,29.6 138.4,64.9" fill="#ffb81f" stroke-width="4"/>
+<polygon points="142.7,70.4 181.1,61.0 149.8,85.0" fill="#ffb81f" stroke-width="4"/>
+<circle cx="100" cy="100" r="46" fill="#ffd21f" />
+<circle cx="84" cy="92" r="5" fill="#222" stroke="none"/>
+<circle cx="116" cy="92" r="5" fill="#222" stroke="none"/>
+<path d="M82,112 C92,126 108,126 118,112" fill="none" stroke="#222" stroke-width="4" />
+
+</g>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
+<g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+<path d="M88,190 L92,112 L108,112 L112,190 Z" fill="#8b5a2b" />
+<circle cx="100" cy="58" r="36" fill="#4caf3a" stroke="#222" stroke-width="10"/>
+<circle cx="62" cy="92" r="30" fill="#4caf3a" stroke="#222" stroke-width="10"/>
+<circle cx="138" cy="92" r="30" fill="#4caf3a" stroke="#222" stroke-width="10"/>
+<circle cx="100" cy="104" r="38" fill="#4caf3a" stroke="#222" stroke-width="10"/>
+<circle cx="72" cy="122" r="22" fill="#4caf3a" stroke="#222" stroke-width="10"/>
+<circle cx="128" cy="122" r="22" fill="#4caf3a" stroke="#222" stroke-width="10"/>
+<circle cx="100" cy="58" r="36" fill="#4caf3a" stroke="none"/>
+<circle cx="62" cy="92" r="30" fill="#4caf3a" stroke="none"/>
+<circle cx="138" cy="92" r="30" fill="#4caf3a" stroke="none"/>
+<circle cx="100" cy="104" r="38" fill="#4caf3a" stroke="none"/>
+<circle cx="72" cy="122" r="22" fill="#4caf3a" stroke="none"/>
+<circle cx="128" cy="122" r="22" fill="#4caf3a" stroke="none"/>
+<path d="M68,66 C72,52 84,46 94,44" fill="none" stroke="#9be58a" stroke-width="5" />
+<path d="M96,150 L98,128 M104,150 L104,138" fill="none" stroke="#6b4423" stroke-width="4" />
+
+</g>
+</svg>

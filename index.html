@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A simple browser version of Dobble using the provided symbols."
+    />
+    <title>Dobble</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">Spot the match</p>
+          <h1>Dobble</h1>
+        </div>
+        <div class="score-panel" aria-live="polite">
+          <span>Score</span>
+          <strong id="score">0</strong>
+        </div>
+      </header>
+
+      <section class="instructions" aria-labelledby="instructions-title">
+        <h2 id="instructions-title">Find the one matching symbol</h2>
+        <p id="status" role="status">
+          There is exactly one symbol shared by both cards.
+        </p>
+      </section>
+
+      <section class="cards" aria-label="Dobble cards">
+        <div class="card" id="card-one" aria-label="First Dobble card"></div>
+        <div class="versus" aria-hidden="true">VS</div>
+        <div class="card" id="card-two" aria-label="Second Dobble card"></div>
+      </section>
+
+      <div class="controls">
+        <button class="button button-secondary" id="new-game" type="button">
+          New game
+        </button>
+        <p class="round-counter" id="round-counter">Round 1</p>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
