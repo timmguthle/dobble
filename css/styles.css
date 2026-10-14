@@ -166,6 +166,11 @@ h1 {
   position: absolute;
   rotate: var(--rotation, 0deg);
   transition: filter 120ms ease, scale 120ms ease;
+  /* Give every symbol its own compositing layer up front. Otherwise the
+     browser promotes the hovered symbol (and overlapping neighbours) only
+     while it animates, and the re-rasterised rotated neighbours visibly
+     shift by a pixel. */
+  will-change: scale, filter;
 }
 
 .symbol:focus-visible {
