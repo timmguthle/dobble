@@ -12,9 +12,31 @@ mistakes before the game is lost. It shows statistics for that game when the
 deck is complete (or lost), including only symbols encountered in that game.
 Its results are also added to the persistent Training statistics.
 
+Every card gets a fresh random layout: each symbol's position, size and
+rotation is chosen anew whenever a card is drawn. The page adapts to phone
+screens (portrait and landscape), so both cards fit on screen at once.
+
+## Project structure
+
+```text
+index.html            Page markup
+css/styles.css        Styles, including the phone layouts
+js/main.js            Game flow: modes, rounds, timer, pause, countdown
+js/deck.js            Deck construction (projective plane of order 7), shuffle
+js/layout.js          Random, non-overlapping symbol placement on a card
+js/card.js            Renders a card's symbol buttons
+js/statistics.js      Statistics panel and one-deck timeline
+js/storage.js         Saved Training results in localStorage
+js/symbols.js         Symbol names and asset paths
+js/dom.js             References to the page's elements
+assets/symbols/       Symbol artwork (SVG)
+docs/                 Reference material
+```
+
 ## Play locally
 
-Open `index.html` in a browser, or serve the folder with any static HTTP server:
+The scripts are ES modules, which browsers do not load from `file://` URLs,
+so serve the folder with any static HTTP server:
 
 ```bash
 python3 -m http.server
