@@ -1,20 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
-<g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
-<path d="M135,170 C178,176 190,134 170,106" fill="none" stroke="#3a2152" stroke-width="21"/>
-<circle cx="100" cy="62" r="32" fill="#8e5bb5" stroke="#3a2152" stroke-width="10"/>
-<ellipse cx="100" cy="136" rx="38" ry="46" transform="rotate(0 100 136)" fill="#8e5bb5" stroke="#3a2152" stroke-width="10"/>
-<polygon points="72,50 72,16 96,36" fill="#8e5bb5" stroke="#3a2152" stroke-width="10"/>
-<polygon points="128,50 128,16 104,36" fill="#8e5bb5" stroke="#3a2152" stroke-width="10"/>
-<path d="M135,170 C178,176 190,134 170,106" fill="none" stroke="#8e5bb5" stroke-width="11"/>
-<circle cx="100" cy="62" r="32" fill="#8e5bb5" stroke="none"/>
-<ellipse cx="100" cy="136" rx="38" ry="46" transform="rotate(0 100 136)" fill="#8e5bb5" stroke="none"/>
-<polygon points="72,50 72,16 96,36" fill="#8e5bb5" stroke="none"/>
-<polygon points="128,50 128,16 104,36" fill="#8e5bb5" stroke="none"/>
-<ellipse cx="90" cy="62" rx="5" ry="7" fill="#ffe066" stroke="#3a2152" stroke-width="2"/>
-<ellipse cx="110" cy="62" rx="5" ry="7" fill="#ffe066" stroke="#3a2152" stroke-width="2"/>
-<path d="M96,72 L104,72 L100,78 Z" fill="#ff8fb3" stroke="#3a2152" stroke-width="2"/>
-<path d="M70,72 L50,68 M70,78 L50,82 M130,72 L150,68 M130,78 L150,82" fill="none" stroke="#3a2152" stroke-width="2.5" />
-<path d="M100,150 L100,176" fill="none" stroke="#3a2152" stroke-width="3" />
-
+<g stroke="#3a2152" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+<!-- tail -->
+<path d="M126,174 C166,180 184,146 168,118 C162,108 150,110 154,120" stroke-width="22"/>
+<path d="M126,174 C166,180 184,146 168,118 C162,108 150,110 154,120" stroke="#8e5bb5" stroke-width="12"/>
+<!-- body -->
+<path d="M100,86 C74,86 60,124 60,152 C60,174 78,182 100,182 C122,182 140,174 140,152 C140,124 126,86 100,86 Z" fill="#8e5bb5"/>
+<ellipse cx="100" cy="148" rx="20" ry="24" fill="#b998dc" stroke="none"/>
+<!-- front paws -->
+<ellipse cx="86" cy="178" rx="11" ry="7" fill="#8e5bb5"/>
+<ellipse cx="114" cy="178" rx="11" ry="7" fill="#8e5bb5"/>
+<path d="M83,180 L83,176 M89,180 L89,176 M111,180 L111,176 M117,180 L117,176" stroke-width="2"/>
+<!-- head: ears + face merged -->
+<g stroke-width="10">
+<polygon points="64,58 68,16 100,40"/>
+<polygon points="136,58 132,16 100,40"/>
+<ellipse cx="100" cy="66" rx="40" ry="33"/>
+</g>
+<g fill="#8e5bb5" stroke="none">
+<polygon points="64,58 68,16 100,40" stroke="#8e5bb5" stroke-width="0"/>
+<polygon points="136,58 132,16 100,40"/>
+<ellipse cx="100" cy="66" rx="40" ry="33"/>
+</g>
+<polygon points="74,44 76,28 90,40" fill="#ff8fb3" stroke="#ff8fb3" stroke-width="4" opacity="0.8"/>
+<polygon points="126,44 124,28 110,40" fill="#ff8fb3" stroke="#ff8fb3" stroke-width="4" opacity="0.8"/>
+<!-- eyes -->
+<ellipse cx="85" cy="62" rx="8" ry="10" fill="#ffe066" stroke-width="2.5"/>
+<ellipse cx="115" cy="62" rx="8" ry="10" fill="#ffe066" stroke-width="2.5"/>
+<ellipse cx="85" cy="63" rx="2.6" ry="7" fill="#3a2152" stroke="none"/>
+<ellipse cx="115" cy="63" rx="2.6" ry="7" fill="#3a2152" stroke="none"/>
+<circle cx="88" cy="58" r="2" fill="#fff" stroke="none"/>
+<circle cx="118" cy="58" r="2" fill="#fff" stroke="none"/>
+<!-- cheeks -->
+<ellipse cx="74" cy="78" rx="6" ry="4" fill="#ff8fb3" stroke="none" opacity="0.55"/>
+<ellipse cx="126" cy="78" rx="6" ry="4" fill="#ff8fb3" stroke="none" opacity="0.55"/>
+<!-- nose + mouth -->
+<path d="M95,74 L105,74 L100,80 Z" fill="#ff8fb3" stroke-width="2.5"/>
+<path d="M100,80 C100,85 96,88 92,85 M100,80 C100,85 104,88 108,85" stroke-width="2.5"/>
+<!-- whiskers -->
+<path d="M66,72 C56,70 48,70 40,72 M66,79 C56,80 48,83 42,87 M134,72 C144,70 152,70 160,72 M134,79 C144,80 152,83 158,87" stroke-width="2.5"/>
 </g>
 </svg>

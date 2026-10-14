@@ -1,9 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
 <g stroke="#222" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
-<path d="M26,166 L54,152 C58,110 80,80 108,70 C108,46 128,30 158,36 C182,42 186,64 172,76 L152,78 L160,88 L130,92 C128,112 112,126 108,142 L128,170 L94,170 L88,152 C78,162 56,172 26,166 Z" fill="#5aa832" />
-<circle cx="142" cy="50" r="4" fill="#222" stroke="none"/>
-<path d="M154,70 L168,70" fill="none" stroke="#222" stroke-width="3" />
-<path d="M64,150 C70,122 84,100 104,88" fill="none" stroke="#a9e07a" stroke-width="5" opacity="0.8"/>
-
+<!-- far leg -->
+<path d="M106,136 C116,148 120,160 120,170 L132,176 C136,178 134,184 130,184 L108,184 L106,170 C100,160 98,150 100,140 Z" fill="#3f8a22"/>
+<!-- far arm -->
+<path d="M66,96 C60,100 56,104 52,110 M52,110 L46,111 M52,110 L50,116" stroke-width="9"/>
+<path d="M66,96 C60,100 56,104 52,110 M52,110 L46,111 M52,110 L50,116" stroke="#3f8a22" stroke-width="3.5"/>
+<!-- body, neck and tail -->
+<path d="M48,56 C52,68 56,80 58,90 C62,106 66,118 74,130 C84,144 100,154 120,162 C140,170 156,178 166,186 C172,190 180,192 188,188 C192,184 188,178 182,178 C172,160 166,140 156,122 C142,98 122,82 102,66 C90,56 80,44 68,28 Z" fill="#5aa832"/>
+<!-- back ridge shading -->
+<path d="M74,38 C84,52 96,64 110,76 C128,92 146,110 160,136" stroke="#3f8a22" stroke-width="4" opacity="0.6"/>
+<!-- belly highlight -->
+<path d="M56,74 C60,92 64,106 70,118" stroke="#a9e07a" stroke-width="5"/>
+<path d="M150,168 C160,174 168,180 176,184" stroke="#a9e07a" stroke-width="4"/>
+<!-- spots -->
+<g fill="#3f8a22" stroke="none">
+<ellipse cx="118" cy="98" rx="5" ry="3" transform="rotate(40 118 98)"/>
+<ellipse cx="136" cy="118" rx="6" ry="3.5" transform="rotate(50 136 118)"/>
+<ellipse cx="150" cy="142" rx="4" ry="2.5" transform="rotate(60 150 142)"/>
+<ellipse cx="96" cy="80" rx="4" ry="2.5" transform="rotate(35 96 80)"/>
+</g>
+<!-- near leg -->
+<path d="M70,122 C70,98 110,94 118,120 C122,138 110,152 96,156 L86,168 L90,170 C95,172 94,180 88,180 L50,180 C44,180 44,172 50,172 L70,168 C72,160 76,152 78,148 C72,140 70,132 70,122 Z" fill="#5aa832"/>
+<path d="M86,110 C94,104 106,104 112,112" stroke="#a9e07a" stroke-width="4"/>
+<path d="M56,180 L56,175 M64,180 L64,175" stroke-width="2.5"/>
+<!-- near arm -->
+<path d="M62,86 C54,88 48,92 44,98 M44,98 L38,98 M44,98 L42,104" stroke-width="10"/>
+<path d="M62,86 C54,88 48,92 44,98 M44,98 L38,98 M44,98 L42,104" stroke="#5aa832" stroke-width="4"/>
+<!-- mouth interior -->
+<polygon points="22,36 62,38 26,56" fill="#b5443a" stroke-width="4"/>
+<!-- head -->
+<path d="M76,30 C70,14 54,6 38,8 C26,10 18,16 16,26 C15,32 18,36 24,36 L62,38 L28,54 C22,56 22,62 28,64 C40,68 58,68 70,60 C80,52 80,42 76,30 Z" fill="#5aa832"/>
+<!-- teeth -->
+<path d="M26,36 L29.5,43 L33,36 M37,36.5 L40.5,43.5 L44,37 M48,37 L51,43 L54,37.5" fill="#fff" stroke-width="2"/>
+<path d="M32,52 L35,46 L39,50 M42,48 L45.5,42.5 L49,45.5" fill="#fff" stroke-width="2"/>
+<!-- head highlight -->
+<path d="M30,14 C38,10 48,10 56,12" stroke="#a9e07a" stroke-width="4"/>
+<!-- eye, brow, nostril -->
+<circle cx="52" cy="22" r="6" fill="#fff" stroke-width="2.5"/>
+<circle cx="50" cy="22.5" r="3" fill="#222" stroke="none"/>
+<circle cx="49" cy="21" r="1" fill="#fff" stroke="none"/>
+<path d="M42,14 L60,17" stroke-width="4"/>
+<path d="M22,22 L25,21" stroke-width="3"/>
+<!-- jaw line -->
+<path d="M40,59 C50,61 60,58 66,54" stroke="#3f8a22" stroke-width="2.5"/>
 </g>
 </svg>
