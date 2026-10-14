@@ -241,6 +241,133 @@ h1 {
   max-width: 700px;
 }
 
+/* Memory mode: the cards are only for looking at, not clicking. */
+.cards.is-memorizing .symbol {
+  cursor: default;
+  pointer-events: none;
+}
+
+.memory {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+.memory-setup {
+  background: #fffdf9;
+  border: 2px solid #1d2433;
+  border-radius: 22px;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  padding: clamp(22px, 5vw, 34px);
+  text-align: center;
+  width: 100%;
+}
+
+.memory-setup-label {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.memory-time-row {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  width: min(100%, 420px);
+}
+
+.memory-time-row input {
+  accent-color: #ed6a3a;
+  flex: 1;
+  min-width: 0;
+}
+
+.memory-time-row output {
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  min-width: 4.2ch;
+  text-align: right;
+}
+
+.memory-timer {
+  background: #e4ded3;
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+  width: min(100%, calc(var(--card-size) * 2));
+}
+
+.memory-timer-bar {
+  background: #ed6a3a;
+  border-radius: inherit;
+  height: 100%;
+  transform-origin: left;
+}
+
+.memory-timer-bar.is-running {
+  animation: memory-timer var(--duration, 2s) linear forwards;
+}
+
+.memory-choices {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+}
+
+.memory-choice {
+  aspect-ratio: 1;
+  background: #fffdf9;
+  border: 3px solid #1d2433;
+  border-radius: 18px;
+  cursor: pointer;
+  padding: 12%;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.memory-choice img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  width: 100%;
+}
+
+@media (hover: hover) {
+  .memory-choices:not(.is-answered) .memory-choice:hover {
+    border-color: #ed6a3a;
+  }
+}
+
+.memory-choice:focus-visible {
+  border-color: #ed6a3a;
+  outline: none;
+}
+
+.memory-choices.is-answered .memory-choice {
+  cursor: default;
+}
+
+.memory-choice.is-correct {
+  background: #b9e7b1;
+  border-color: #42a85f;
+}
+
+.memory-choice.is-wrong {
+  animation: shake 260ms ease;
+  background: #ffd2c7;
+  border-color: #ed6a3a;
+}
+
+.memory-reveal {
+  font-size: 1.1rem;
+  padding: 16px 36px;
+}
+
 .controls {
   justify-content: center;
   margin-top: 54px;
@@ -408,6 +535,15 @@ h1 {
   min-width: 8px;
 }
 
+@keyframes memory-timer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
 @keyframes shake {
   25% {
     translate: -4px 0;
@@ -522,6 +658,19 @@ h1 {
 
   .versus {
     display: none;
+  }
+
+  .memory {
+    gap: 16px;
+  }
+
+  .memory-choices {
+    gap: 8px;
+  }
+
+  .memory-choice {
+    border-width: 2px;
+    border-radius: 12px;
   }
 
   .deck-overlay {

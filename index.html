@@ -19,7 +19,7 @@
           <h1>Dobble</h1>
         </div>
         <div class="score-panel" aria-live="polite">
-          <span>Score</span>
+          <span id="score-label">Score</span>
           <strong id="score">0</strong>
           <span id="mistakes-label" hidden>Mistakes</span>
           <strong id="mistakes" hidden>0 / 5</strong>
@@ -40,7 +40,30 @@
         <button class="mode-button" id="deck-mode" type="button">
           One deck
         </button>
+        <button class="mode-button" id="memory-mode" type="button">
+          Memory
+        </button>
       </div>
+
+      <section class="memory" id="memory" hidden aria-label="Memory game">
+        <form class="memory-setup" id="memory-setup">
+          <label class="memory-setup-label" for="memory-time">
+            How long do you want to see the cards?
+          </label>
+          <div class="memory-time-row">
+            <input id="memory-time" type="range" min="0.1" max="5" step="0.1" value="2" />
+            <output id="memory-time-value" for="memory-time">2.0 s</output>
+          </div>
+          <button class="button button-secondary" type="submit">Start memory game</button>
+        </form>
+        <div class="memory-timer" id="memory-timer" hidden aria-hidden="true">
+          <div class="memory-timer-bar" id="memory-timer-bar"></div>
+        </div>
+        <div class="memory-choices" id="memory-choices" hidden></div>
+        <button class="button button-secondary memory-reveal" id="memory-reveal" type="button" hidden>
+          Show cards
+        </button>
+      </section>
 
       <section class="cards" aria-label="Dobble cards" id="cards" hidden>
         <div class="card" id="card-one" aria-label="First Dobble card"></div>

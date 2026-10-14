@@ -1,6 +1,7 @@
 import { renderCard, clearCard } from "./card.js";
 import { createDeck, sharedSymbol, shuffle } from "./deck.js";
 import { dom } from "./dom.js";
+import { enterMemoryMode, exitMemoryMode, showMemorySetup } from "./memory.js";
 import { renderStatistics } from "./statistics.js";
 import { appendResult, clearResults, loadResults } from "./storage.js";
 
@@ -25,6 +26,7 @@ const state = {
   hasStartedTimer: false,
   countdownInterval: undefined,
   countdownToken: 0,
+  nextRoundTimeout: undefined,
 };
 
 const isDeckMode = () => state.mode === "deck";
@@ -80,7 +82,7 @@ function handlePick(button, symbol, shared) {
     dom.score.textContent = state.score;
     button.classList.add("is-correct");
     setStatus("Correct! Loading the next pair...");
-    window.setTimeout(nextRound, NEXT_ROUND_DELAY);
+    state.nextRoundTimeout = window.setTimeout(nextRound, NEXT_ROUND_DELAY);
     return;
   }
 
@@ -159,6 +161,7 @@ function beginGame() {
 function cancelCountdown() {
   state.countdownToken += 1;
   window.clearInterval(state.countdownInterval);
+  window.clearTimeout(state.nextRoundTimeout);
 }
 
 function startDeckCountdown() {
@@ -185,6 +188,10 @@ function startDeckCountdown() {
 }
 
 function startGame() {
+  if (state.mode === "memory") {
+    showMemorySetup();
+    return;
+  }
   if (isDeckMode()) {
     startDeckCountdown();
     return;
@@ -195,11 +202,27 @@ function startGame() {
 function selectMode(nextMode) {
   if (state.mode === nextMode) return;
   cancelCountdown();
+  if (state.mode === "memory") {
+    exitMemoryMode();
+    dom.score.textContent = state.score;
+  }
   state.mode = nextMode;
-  dom.trainingModeButton.classList.toggle("is-active", !isDeckMode());
-  dom.deckModeButton.classList.toggle("is-active", isDeckMode());
+  dom.trainingModeButton.classList.toggle("is-active", nextMode === "training");
+  dom.deckModeButton.classList.toggle("is-active", nextMode === "deck");
+  dom.memoryModeButton.classList.toggle("is-active", nextMode === "memory");
   dom.mistakesLabel.hidden = !isDeckMode();
   dom.mistakes.hidden = !isDeckMode();
+
+  if (nextMode === "memory") {
+    // Memory mode runs its own rounds; keep the timed game from reacting.
+    state.isPaused = true;
+    hideDeckOverlay();
+    dom.startDeckGameButton.hidden = true;
+    dom.pauseButton.hidden = true;
+    dom.statistics.hidden = true;
+    enterMemoryMode();
+    return;
+  }
 
   if (isDeckMode()) {
     dom.cards.hidden = false;
@@ -256,6 +279,7 @@ dom.newGameButton.addEventListener("click", startGame);
 dom.startDeckGameButton.addEventListener("click", startDeckCountdown);
 dom.trainingModeButton.addEventListener("click", () => selectMode("training"));
 dom.deckModeButton.addEventListener("click", () => selectMode("deck"));
+dom.memoryModeButton.addEventListener("click", () => selectMode("memory"));
 dom.pauseButton.addEventListener("click", pauseGame);
 dom.resumeButton.addEventListener("click", resumeGame);
 dom.clearStatisticsButton.addEventListener("click", clearStatistics);

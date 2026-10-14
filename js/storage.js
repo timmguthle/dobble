@@ -1,4 +1,5 @@
 const STORAGE_KEY = "dobble-training-statistics";
+const MEMORY_TIME_KEY = "dobble-memory-time";
 
 export function loadResults() {
   try {
@@ -20,6 +21,22 @@ export function appendResult(result) {
 export function clearResults() {
   try {
     localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // See appendResult.
+  }
+}
+
+export function loadMemoryTime() {
+  try {
+    return Number(localStorage.getItem(MEMORY_TIME_KEY)) || null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveMemoryTime(seconds) {
+  try {
+    localStorage.setItem(MEMORY_TIME_KEY, String(seconds));
   } catch {
     // See appendResult.
   }

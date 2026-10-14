@@ -12,6 +12,13 @@ mistakes before the game is lost. It shows statistics for that game when the
 deck is complete (or lost), including only symbols encountered in that game.
 Its results are also added to the persistent Training statistics.
 
+**Memory** mode tests recall instead of speed. Choose how long the cards are
+shown (0.1–5 seconds, in 0.1 s steps), then press **Show cards** to start each round. The
+cards disappear after that time and you pick the shared symbol from the 15
+distinct symbols that were on them; time taken to choose does not matter. The
+score shows correct answers out of rounds played, and **New game** lets you
+pick a new viewing time.
+
 Every card gets a fresh random layout: each symbol's position, size and
 rotation is chosen anew whenever a card is drawn. The page adapts to phone
 screens (portrait and landscape), so both cards fit on screen at once.
@@ -22,6 +29,7 @@ screens (portrait and landscape), so both cards fit on screen at once.
 index.html            Page markup
 css/styles.css        Styles, including the phone layouts
 js/main.js            Game flow: modes, rounds, timer, pause, countdown
+js/memory.js          Memory mode: timed reveal, symbol choice, score
 js/deck.js            Deck construction (projective plane of order 7), shuffle
 js/layout.js          Random, non-overlapping symbol placement on a card
 js/card.js            Renders a card's symbol buttons
