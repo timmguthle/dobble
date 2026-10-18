@@ -1,8 +1,9 @@
 import { renderCard, clearCard } from "./card.js";
+import { renderChoices, revealAnswer } from "./choices.js";
 import { createDeck, sharedSymbol, shuffle } from "./deck.js";
 import { dom } from "./dom.js";
 import { loadMemoryTime, saveMemoryTime } from "./storage.js";
-import { symbolLabel, symbolUrl } from "./symbols.js";
+import { symbolLabel } from "./symbols.js";
 
 // Memory mode: the two cards are shown for a chosen time, then hidden. The
 // player picks the shared symbol from the cards' 15 distinct symbols.
@@ -113,22 +114,7 @@ function revealCards() {
 
 function showChoices(symbols) {
   hideBoard();
-  dom.memoryChoices.classList.remove("is-answered");
-  dom.memoryChoices.replaceChildren(...shuffle(symbols).map((symbol) => {
-    const button = document.createElement("button");
-    button.className = "memory-choice";
-    button.type = "button";
-    button.dataset.symbol = symbol;
-    button.setAttribute("aria-label", symbolLabel(symbol));
-
-    const image = document.createElement("img");
-    image.alt = "";
-    image.src = symbolUrl(symbol);
-    image.draggable = false;
-    button.append(image);
-    button.addEventListener("click", () => pickChoice(button, symbol));
-    return button;
-  }));
+  renderChoices(dom.memoryChoices, symbols, pickChoice);
   dom.memoryChoices.hidden = false;
   setStatus("Which symbol was on both cards?");
 }
@@ -138,17 +124,11 @@ function pickChoice(button, symbol) {
   memory.answered = true;
   memory.played += 1;
   memory.round += 1;
-  dom.memoryChoices.classList.add("is-answered");
 
-  if (symbol === memory.shared) {
+  if (revealAnswer(dom.memoryChoices, button, symbol, memory.shared)) {
     memory.correct += 1;
-    button.classList.add("is-correct");
     setStatus("Correct!");
   } else {
-    button.classList.add("is-wrong");
-    dom.memoryChoices
-      .querySelector(`[data-symbol="${memory.shared}"]`)
-      .classList.add("is-correct");
     setStatus(`Not quite — it was the ${symbolLabel(memory.shared).toLowerCase()}.`);
   }
   updateScore();

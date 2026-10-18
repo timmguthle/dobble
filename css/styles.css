@@ -241,13 +241,16 @@ h1 {
   max-width: 700px;
 }
 
-/* Memory mode: the cards are only for looking at, not clicking. */
-.cards.is-memorizing .symbol {
+/* Memory mode and Buzzer duel: the cards are only for looking at, not
+   clicking. */
+.cards.is-memorizing .symbol,
+.cards.is-display-only .symbol {
   cursor: default;
   pointer-events: none;
 }
 
-.memory {
+.memory,
+.mp-stage {
   display: grid;
   gap: 24px;
   justify-items: center;
@@ -387,6 +390,13 @@ h1 {
   cursor: pointer;
   font-weight: 800;
   padding: 13px 24px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .button-secondary {
@@ -394,7 +404,7 @@ h1 {
   color: #fff;
 }
 
-.button-secondary:hover,
+.button-secondary:not(:disabled):hover,
 .button-secondary:focus-visible {
   background: #ed6a3a;
 }
@@ -542,6 +552,322 @@ h1 {
   min-width: 8px;
 }
 
+/* Start screen */
+.home-shell {
+  margin: 0 auto;
+  max-width: 760px;
+  padding: max(56px, env(safe-area-inset-top)) 16px 48px;
+  text-align: center;
+}
+
+.home-shell h1 {
+  font-size: clamp(3.2rem, 12vw, 6rem);
+}
+
+.home-question {
+  color: #5c6472;
+  font-size: 1.15rem;
+  margin: 28px 0;
+}
+
+.home-choices {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.home-choice {
+  background: #fffdf9;
+  border: 3px solid #1d2433;
+  border-radius: 24px;
+  box-shadow: 0 10px 0 #d9d1c4;
+  color: #1d2433;
+  display: grid;
+  gap: 8px;
+  padding: clamp(24px, 6vw, 40px) 20px;
+  text-decoration: none;
+  transition: border-color 120ms ease, translate 120ms ease;
+}
+
+.home-choice strong {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  letter-spacing: -0.03em;
+}
+
+.home-choice span {
+  color: #5c6472;
+}
+
+.home-choice:hover,
+.home-choice:focus-visible {
+  border-color: #ed6a3a;
+  outline: none;
+  translate: 0 -2px;
+}
+
+.home-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Multiplayer */
+.mp-board {
+  display: grid;
+  gap: 24px;
+}
+
+/* A grid item with auto margins shrinks to its content; keep it full. */
+.mp-stage {
+  width: 100%;
+}
+
+.mp-panel {
+  background: #fffdf9;
+  border: 2px solid #1d2433;
+  border-radius: 22px;
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  padding: clamp(22px, 5vw, 34px);
+  text-align: center;
+  width: 100%;
+}
+
+.mp-panel p {
+  margin: 0;
+}
+
+.mp-panel-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.mp-panel-text {
+  color: #5c6472;
+  max-width: 460px;
+}
+
+.mp-panel-note {
+  color: #c24a1f;
+  font-weight: 700;
+}
+
+kbd {
+  background: #fff;
+  border: 2px solid #1d2433;
+  border-radius: 10px;
+  box-shadow: 0 4px 0 #1d2433;
+  display: inline-grid;
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 900;
+  height: 2.2em;
+  place-items: center;
+  width: 2.2em;
+}
+
+.duel-keys {
+  display: flex;
+  gap: 48px;
+}
+
+.duel-keys div {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  font-weight: 800;
+}
+
+.duel-bar {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+.duel-player {
+  align-items: center;
+  background: #fffdf9;
+  border: 3px solid #1d2433;
+  border-radius: 18px;
+  column-gap: 12px;
+  display: grid;
+  grid-template-areas:
+    "key name score"
+    "key state score";
+  grid-template-columns: auto 1fr auto;
+  padding: 10px 16px;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+/* Player 2 sits on the right, like their key. */
+#duel-player-1 {
+  grid-template-areas:
+    "score name key"
+    "score state key";
+  grid-template-columns: auto 1fr auto;
+  text-align: right;
+}
+
+.duel-player kbd {
+  grid-area: key;
+}
+
+.duel-name {
+  font-weight: 800;
+  grid-area: name;
+}
+
+.duel-state {
+  color: #5c6472;
+  font-size: 0.85rem;
+  grid-area: state;
+  min-height: 1.2em;
+}
+
+.duel-score {
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  grid-area: score;
+}
+
+.duel-player.is-ready {
+  background: #dcf3d7;
+  border-color: #42a85f;
+}
+
+.duel-player.is-ready .duel-state {
+  color: #2e7d45;
+  font-weight: 800;
+}
+
+.duel-player.is-buzzer {
+  background: #ffe3d9;
+  border-color: #ed6a3a;
+}
+
+.duel-player.is-buzzer .duel-state {
+  color: #c24a1f;
+  font-weight: 800;
+}
+
+.stepper {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+}
+
+.stepper output {
+  font-size: 2.6rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  min-width: 2ch;
+}
+
+.stepper-button {
+  background: #1d2433;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 800;
+  height: 48px;
+  line-height: 1;
+  width: 48px;
+}
+
+.stepper-button:not(:disabled):hover,
+.stepper-button:focus-visible {
+  background: #ed6a3a;
+}
+
+.stepper-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.player-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.player-chips li {
+  background: #f4f1ea;
+  border: 2px solid #1d2433;
+  border-radius: 50%;
+  display: grid;
+  font-weight: 900;
+  height: 40px;
+  place-items: center;
+  width: 40px;
+}
+
+.handover-player {
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.results h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin: 0;
+}
+
+.results .eyebrow {
+  margin: 0;
+}
+
+.ranking {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.ranking li {
+  align-items: baseline;
+  background: #f4f1ea;
+  border-radius: 12px;
+  column-gap: 12px;
+  display: grid;
+  grid-template-columns: 2.2ch 1fr auto;
+  padding: 12px 16px;
+}
+
+.ranking li.is-winner {
+  background: #dcf3d7;
+}
+
+.ranking-place {
+  color: #5c6472;
+  font-weight: 800;
+}
+
+.ranking-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.ranking-detail {
+  color: #5c6472;
+  font-size: 0.85rem;
+  grid-column: 2 / -1;
+}
+
+.results-actions {
+  display: flex;
+  gap: 12px;
+}
+
 @keyframes memory-timer {
   from {
     transform: scaleX(1);
@@ -674,8 +1000,41 @@ h1 {
     display: none;
   }
 
-  .memory {
-    gap: 16px;
+  .memory,
+  .mp-stage,
+  .mp-board {
+    gap: 14px;
+  }
+
+  .home-shell {
+    padding-top: max(40px, env(safe-area-inset-top));
+  }
+
+  .home-choices {
+    grid-template-columns: 1fr;
+  }
+
+  .duel-bar {
+    gap: 8px;
+  }
+
+  .duel-player {
+    border-width: 2px;
+    column-gap: 8px;
+    padding: 6px 10px;
+  }
+
+  .duel-score {
+    font-size: 1.5rem;
+  }
+
+  .duel-player kbd {
+    font-size: 1rem;
+  }
+
+  .mp-panel {
+    border-radius: 18px;
+    gap: 12px;
   }
 
   .memory-choices {
@@ -818,8 +1177,30 @@ h1 {
     grid-area: board;
   }
 
-  .memory {
+  .memory,
+  .mp-stage {
     width: 100%;
+  }
+
+  .mp-board {
+    gap: 12px;
+  }
+
+  .duel-player {
+    padding: 4px 10px;
+  }
+
+  .duel-player kbd {
+    font-size: 0.9rem;
+  }
+
+  .duel-score {
+    font-size: 1.3rem;
+  }
+
+  .mp-panel {
+    gap: 10px;
+    padding: 16px;
   }
 
   /* Keep all three rows of choices on screen. */

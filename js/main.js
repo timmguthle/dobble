@@ -1,7 +1,6 @@
-import { renderCard, clearCard } from "./card.js";
+import { renderCard, clearCard, flashWrong } from "./card.js";
 import { createDeck, sharedSymbol, shuffle } from "./deck.js";
 import { dom } from "./dom.js";
-import { initCardFit } from "./fit.js";
 import { enterMemoryMode, exitMemoryMode, showMemorySetup } from "./memory.js";
 import { renderStatistics } from "./statistics.js";
 import { appendResult, clearResults, loadResults } from "./storage.js";
@@ -97,10 +96,7 @@ function handlePick(button, symbol, shared) {
     }
   }
 
-  // Restart the shake animation even if it is still running.
-  button.classList.remove("is-wrong");
-  void button.offsetWidth;
-  button.classList.add("is-wrong");
+  flashWrong(button);
   setStatus("Not that one — keep looking!");
 }
 
@@ -207,6 +203,10 @@ function selectMode(nextMode) {
     exitMemoryMode();
     dom.score.textContent = state.score;
   }
+  showMode(nextMode);
+}
+
+function showMode(nextMode) {
   state.mode = nextMode;
   dom.trainingModeButton.classList.toggle("is-active", nextMode === "training");
   dom.deckModeButton.classList.toggle("is-active", nextMode === "deck");
@@ -285,5 +285,13 @@ dom.pauseButton.addEventListener("click", pauseGame);
 dom.resumeButton.addEventListener("click", resumeGame);
 dom.clearStatisticsButton.addEventListener("click", clearStatistics);
 
-beginGame();
-initCardFit();
+// Coming to single player starts a fresh game in the last mode used.
+export function enterSinglePlayer() {
+  showMode(state.mode);
+}
+
+export function leaveSinglePlayer() {
+  cancelCountdown();
+  state.isPaused = true;
+  if (state.mode === "memory") exitMemoryMode();
+}

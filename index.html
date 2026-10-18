@@ -12,11 +12,27 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <main class="game-shell">
+    <main class="home-shell" id="home" hidden>
+      <p class="eyebrow">Spot the match</p>
+      <h1>Dobble</h1>
+      <p class="home-question">How do you want to play?</p>
+      <nav class="home-choices" aria-label="Choose how to play">
+        <a class="home-choice" href="#single">
+          <strong>Single player</strong>
+          <span>Training, One deck and Memory</span>
+        </a>
+        <a class="home-choice" href="#multi">
+          <strong>Multiplayer</strong>
+          <span>Buzzer duel and Relay deck on one device</span>
+        </a>
+      </nav>
+    </main>
+
+    <main class="game-shell" id="single" hidden>
       <header class="game-header">
         <div>
-          <p class="eyebrow">Spot the match</p>
-          <h1>Dobble</h1>
+          <p class="eyebrow">Single player</p>
+          <h1><a class="home-link" href="#">Dobble</a></h1>
         </div>
         <div class="score-panel" aria-live="polite">
           <span id="score-label">Score</span>
@@ -86,6 +102,7 @@
         <button class="button button-secondary" id="pause-game" type="button">
           Pause game
         </button>
+        <a class="button button-light" href="#">Menu</a>
         <p class="round-counter" id="round-counter">Round 1</p>
       </div>
 
@@ -117,6 +134,125 @@
       </section>
     </main>
 
-    <script type="module" src="js/main.js"></script>
+    <main class="game-shell" id="multi" hidden>
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">Multiplayer</p>
+          <h1><a class="home-link" href="#">Dobble</a></h1>
+        </div>
+        <div class="score-panel" aria-live="polite">
+          <span id="mp-score-label">Round</span>
+          <strong id="mp-score">—</strong>
+          <span id="mp-extra-label" hidden>Mistakes</span>
+          <strong id="mp-extra" hidden>0</strong>
+        </div>
+      </header>
+
+      <section class="instructions" aria-labelledby="mp-title">
+        <h2 id="mp-title">Buzzer duel</h2>
+        <p id="mp-status" role="status"></p>
+      </section>
+
+      <div class="mode-switch" role="group" aria-label="Multiplayer mode">
+        <button class="mode-button is-active" id="buzzer-mode" type="button">
+          Buzzer duel
+        </button>
+        <button class="mode-button" id="relay-mode" type="button">
+          Relay deck
+        </button>
+      </div>
+
+      <div class="board mp-board" id="mp-board">
+        <section class="mp-stage" id="mp-stage" aria-label="Multiplayer game">
+          <div class="mp-panel" id="buzzer-setup">
+            <p class="mp-panel-title">Two players, one keyboard</p>
+            <div class="duel-keys" aria-hidden="true">
+              <div><kbd>A</kbd><span>Player 1</span></div>
+              <div><kbd>L</kbd><span>Player 2</span></div>
+            </div>
+            <p class="mp-panel-text">
+              Both press your key to show the next cards. Spot the shared symbol and
+              press your key first, then click the symbol. Right: your point.
+              Wrong: your opponent's point. One deck, 28 cards.
+            </p>
+            <p class="mp-panel-note" id="buzzer-touch-note" hidden>
+              The buzzer duel needs a keyboard. Try Relay deck on this device.
+            </p>
+            <button class="button button-secondary" id="buzzer-start" type="button">
+              Start duel
+            </button>
+          </div>
+
+          <div class="duel-bar" id="duel-bar" hidden>
+            <div class="duel-player" id="duel-player-0">
+              <kbd>A</kbd>
+              <span class="duel-name">Player 1</span>
+              <strong class="duel-score">0</strong>
+              <span class="duel-state"></span>
+            </div>
+            <div class="duel-player" id="duel-player-1">
+              <kbd>L</kbd>
+              <span class="duel-name">Player 2</span>
+              <strong class="duel-score">0</strong>
+              <span class="duel-state"></span>
+            </div>
+          </div>
+
+          <form class="mp-panel" id="relay-setup">
+            <p class="mp-panel-title">How many players?</p>
+            <div class="stepper">
+              <button class="stepper-button" id="relay-fewer" type="button" aria-label="Fewer players">−</button>
+              <output id="relay-count" aria-live="polite">2</output>
+              <button class="stepper-button" id="relay-more" type="button" aria-label="More players">+</button>
+            </div>
+            <ol class="player-chips" id="relay-chips" aria-label="Players"></ol>
+            <p class="mp-panel-text">
+              Everyone plays the same 28 card pairs, one after another. Each mistake
+              adds 3 seconds to your time. Fastest total time wins.
+            </p>
+            <button class="button button-secondary" type="submit">Start relay</button>
+          </form>
+
+          <div class="mp-panel" id="relay-handover" hidden>
+            <p class="mp-panel-text" id="relay-previous"></p>
+            <p class="handover-player" id="relay-player">Player A</p>
+            <p class="mp-panel-text">Your turn. Ready?</p>
+            <button class="button button-secondary" id="relay-go" type="button">Start</button>
+          </div>
+
+          <div class="memory-choices" id="mp-choices" hidden></div>
+
+          <div class="mp-panel results" id="mp-results" hidden>
+            <p class="eyebrow">Results</p>
+            <h2 id="mp-results-title">Ranking</h2>
+            <ol class="ranking" id="mp-ranking"></ol>
+            <div class="results-actions">
+              <button class="button button-secondary" id="mp-play-again" type="button">
+                Play again
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="cards" aria-label="Dobble cards" id="mp-cards" hidden>
+          <div class="card" id="mp-card-one" aria-label="First Dobble card"></div>
+          <div class="versus" aria-hidden="true">VS</div>
+          <div class="card" id="mp-card-two" aria-label="Second Dobble card"></div>
+          <div class="deck-overlay" id="mp-overlay" hidden>
+            <p id="mp-overlay-message"></p>
+          </div>
+        </section>
+      </div>
+
+      <div class="controls">
+        <button class="button button-secondary" id="mp-new-game" type="button">
+          New game
+        </button>
+        <a class="button button-light" href="#">Menu</a>
+        <p class="round-counter" id="mp-round"></p>
+      </div>
+    </main>
+
+    <script type="module" src="js/app.js"></script>
   </body>
 </html>

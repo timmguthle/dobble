@@ -1,5 +1,3 @@
-import { dom } from "./dom.js";
-
 // On phones the cards should be as big as the screen allows, which CSS can
 // only estimate. Here the free space is measured and the cards are sized to
 // fill it. Elsewhere the CSS sizing applies.
@@ -22,18 +20,23 @@ let frame = 0;
 function fitCards() {
   frame = 0;
   const sideBySide = PHONE_LANDSCAPE.matches;
-  if (!sideBySide && !PHONE_PORTRAIT.matches) {
+  // Single player and multiplayer each have their own board; fit the one on
+  // screen (if the cards are showing).
+  const shell = document.querySelector(".game-shell:not([hidden])");
+  const cards = shell?.querySelector(".cards:not([hidden])");
+  if (!cards || (!sideBySide && !PHONE_PORTRAIT.matches)) {
     root.style.removeProperty("--card-size");
     return;
   }
+  const board = shell.querySelector(".board");
 
   // Measure from the page top so a scrolled page gives the same result.
-  const cardsTop = dom.cards.getBoundingClientRect().top + window.scrollY;
-  const gap = parseFloat(getComputedStyle(dom.cards).rowGap) || 0;
+  const cardsTop = cards.getBoundingClientRect().top + window.scrollY;
+  const gap = parseFloat(getComputedStyle(cards).rowGap) || 0;
   // clientHeight is the height with Safari's toolbars showing, so the cards
   // do not jump while the toolbars collapse on scroll or during pinch-zoom.
   const freeHeight = root.clientHeight - cardsTop - SHADOW_SPACE;
-  const freeWidth = dom.board.clientWidth;
+  const freeWidth = board.clientWidth;
 
   const fitsWidth = sideBySide ? (freeWidth - gap) / 2 : freeWidth;
   const fitsHeight = sideBySide ? freeHeight : (freeHeight - gap) / 2;
@@ -41,7 +44,7 @@ function fitCards() {
   root.style.setProperty("--card-size", `${Math.floor(size)}px`);
 }
 
-function scheduleFit() {
+export function scheduleFit() {
   if (!frame) frame = window.requestAnimationFrame(fitCards);
 }
 
@@ -51,9 +54,10 @@ export function initCardFit() {
   PHONE_LANDSCAPE.addEventListener("change", scheduleFit);
   // Refit when anything above the cards changes height, for example when
   // Memory mode shows its timer. The cards themselves are not observed, so
-  // resizing them cannot loop.
+  // resizing them cannot loop; code that shows the cards calls scheduleFit.
   const observer = new ResizeObserver(scheduleFit);
-  for (const element of [dom.header, dom.instructions, dom.modeSwitch, dom.memory]) {
+  const aboveCards = ".game-header, .instructions, .mode-switch, .memory, .mp-stage";
+  for (const element of document.querySelectorAll(aboveCards)) {
     observer.observe(element);
   }
   fitCards();

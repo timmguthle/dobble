@@ -3,11 +3,7 @@ const $ = (selector) => document.querySelector(selector);
 export const dom = {
   cardOne: $("#card-one"),
   cardTwo: $("#card-two"),
-  board: $("#board"),
   cards: $("#cards"),
-  header: $(".game-header"),
-  instructions: $(".instructions"),
-  modeSwitch: $(".mode-switch"),
   deckOverlay: $("#deck-overlay"),
   deckOverlayMessage: $("#deck-overlay-message"),
   instructionsTitle: $("#instructions-title"),

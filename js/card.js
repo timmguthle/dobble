@@ -1,9 +1,9 @@
 import { randomLayout } from "./layout.js";
 import { symbolLabel, symbolUrl } from "./symbols.js";
 
-export function renderCard(element, symbols, onPick) {
-  const layout = randomLayout(symbols.length);
-
+// Pass a `layout` from randomLayout to draw the card exactly as before;
+// otherwise every call places the symbols anew.
+export function renderCard(element, symbols, onPick, layout = randomLayout(symbols.length)) {
   element.replaceChildren(...symbols.map((symbol, index) => {
     const { x, y, size, rotation } = layout[index];
     const button = document.createElement("button");
@@ -29,4 +29,11 @@ export function renderCard(element, symbols, onPick) {
 
 export function clearCard(element) {
   element.replaceChildren();
+}
+
+// Restart the shake animation even if it is still running.
+export function flashWrong(button) {
+  button.classList.remove("is-wrong");
+  void button.offsetWidth;
+  button.classList.add("is-wrong");
 }
