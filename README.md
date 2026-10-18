@@ -35,6 +35,20 @@ Training statistics.
   player's time. When everyone has played, the players are ranked by total
   time.
 
+With a keyboard, the symbol to choose in Memory mode and the Buzzer duel can
+also be picked by key. The 15 symbols sit in a 5 × 3 grid, and so do the keys
+in the middle of the keyboard:
+
+```text
+E R T Z U
+ D F G H J
+X C V B N
+```
+
+Each symbol shows its key while you choose. The keys are matched by their
+position, so the grid also works on an American keyboard; there the browser
+shows Y instead of Z where it can read the layout (Chrome, Edge).
+
 Every card gets a fresh random layout: each symbol's position, size and
 rotation is chosen anew whenever a card is drawn. The page adapts to phone
 screens (portrait and landscape), so both cards fit on screen at once.
@@ -47,7 +61,7 @@ css/styles.css        Styles, including the phone layouts
 js/app.js             Entry point: start screen, single player / multiplayer
 js/main.js            Single player game flow: modes, rounds, timer, pause, countdown
 js/memory.js          Memory mode: timed reveal, symbol choice, score
-js/choices.js         Grid of symbols to pick the shared one from
+js/choices.js         Grid of symbols to pick the shared one from, by click or key
 js/multiplayer/       Multiplayer: Buzzer duel, Relay deck and their shared helpers
 js/deck.js            Deck construction (projective plane of order 7), shuffle
 js/layout.js          Random, non-overlapping symbol placement on a card

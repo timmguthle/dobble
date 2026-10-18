@@ -358,6 +358,30 @@ h1 {
   outline: none;
 }
 
+/* The key that picks this symbol; only shown where there is a keyboard. */
+.choice-key {
+  border-width: 1.5px;
+  border-radius: 6px;
+  box-shadow: 0 2px 0 #1d2433;
+  display: none;
+  font-size: 0.8rem;
+  height: 1.7em;
+  left: 6px;
+  position: absolute;
+  top: 6px;
+  width: 1.7em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .choice-key {
+    display: inline-grid;
+  }
+}
+
+.memory-choices.is-answered .choice-key {
+  opacity: 0.4;
+}
+
 .memory-choices.is-answered .memory-choice {
   cursor: default;
 }
