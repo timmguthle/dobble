@@ -39,6 +39,8 @@
           <strong id="score">0</strong>
           <span id="mistakes-label" hidden>Mistakes</span>
           <strong id="mistakes" hidden>0 / 5</strong>
+          <span id="time-left-label" hidden>Time</span>
+          <strong id="time-left" hidden>60 s</strong>
         </div>
       </header>
 
@@ -59,9 +61,16 @@
         <button class="mode-button" id="memory-mode" type="button">
           Memory
         </button>
+        <button class="mode-button" id="time-attack-mode" type="button">
+          Time attack
+        </button>
       </div>
 
       <div class="board" id="board">
+        <div class="memory-timer time-bar" id="time-bar" hidden aria-hidden="true">
+          <div class="memory-timer-bar" id="time-bar-fill"></div>
+        </div>
+
         <section class="memory" id="memory" hidden aria-label="Memory game">
           <form class="memory-setup" id="memory-setup">
             <label class="memory-setup-label" for="memory-time">

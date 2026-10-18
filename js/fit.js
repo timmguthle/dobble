@@ -56,7 +56,7 @@ export function initCardFit() {
   // Memory mode shows its timer. The cards themselves are not observed, so
   // resizing them cannot loop; code that shows the cards calls scheduleFit.
   const observer = new ResizeObserver(scheduleFit);
-  const aboveCards = ".game-header, .instructions, .mode-switch, .memory, .mp-stage";
+  const aboveCards = ".game-header, .instructions, .mode-switch, .memory, .time-bar, .mp-stage";
   for (const element of document.querySelectorAll(aboveCards)) {
     observer.observe(element);
   }

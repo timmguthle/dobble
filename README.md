@@ -19,6 +19,14 @@ distinct symbols that were on them; time taken to choose does not matter. The
 score shows correct answers out of rounds played, and **New game** lets you
 pick a new viewing time.
 
+**Time attack** gives you 60 seconds to find as many matches as you can,
+after a three-second countdown. Each right answer adds a second and each
+mistake takes three seconds off; the clock stands still while a solved pair
+is still showing. The bar above the cards shows the time left and turns red
+in the last ten seconds. Your best score is saved, and the game's statistics
+are shown when time runs out (its find times are also added to the Training
+statistics).
+
 **Multiplayer** is a separate part of the game for several players on one
 device; choose it on the start screen. Its results are not saved to the
 Training statistics.
@@ -67,7 +75,7 @@ js/deck.js            Deck construction (projective plane of order 7), shuffle
 js/layout.js          Random, non-overlapping symbol placement on a card
 js/card.js            Renders a card's symbol buttons
 js/statistics.js      Statistics panel and one-deck timeline
-js/storage.js         Saved Training results in localStorage
+js/storage.js         Saved Training results and settings in localStorage
 js/symbols.js         Symbol names and asset paths
 js/dom.js             References to the single player page elements
 assets/symbols/       Symbol artwork (SVG)

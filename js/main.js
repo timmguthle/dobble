@@ -3,13 +3,20 @@ import { createDeck, sharedSymbol, shuffle } from "./deck.js";
 import { dom } from "./dom.js";
 import { enterMemoryMode, exitMemoryMode, showMemorySetup } from "./memory.js";
 import { renderStatistics } from "./statistics.js";
-import { appendResult, clearResults, loadResults } from "./storage.js";
+import {
+  appendResult, clearResults, loadResults, loadTimeAttackBest, saveTimeAttackBest,
+} from "./storage.js";
 
 const DECK_ROUNDS = 28;
 const MAX_MISTAKES = 5;
 const COUNTDOWN_SECONDS = 3;
 const NEXT_ROUND_DELAY = 500;
 const DEFAULT_STATUS = "There is exactly one symbol shared by both cards.";
+// Time attack: find as many matches as you can before the clock runs out.
+const TIME_ATTACK_SECONDS = 60;
+const TIME_BONUS_SECONDS = 1;
+const TIME_PENALTY_SECONDS = 3;
+const LOW_TIME_SECONDS = 10;
 
 const state = {
   mode: "training",
@@ -27,9 +34,18 @@ const state = {
   countdownInterval: undefined,
   countdownToken: 0,
   nextRoundTimeout: undefined,
+  // Time attack clock: the game ends at `deadline`. It stands still while a
+  // solved pair is still showing (`clockStoppedAt`).
+  deadline: 0,
+  clockStoppedAt: null,
+  clockFrame: 0,
 };
 
 const isDeckMode = () => state.mode === "deck";
+const isTimeAttack = () => state.mode === "timeattack";
+// One deck and Time attack are single games with a start countdown and
+// their own statistics; Training runs on and saves everything.
+const isGameMode = () => isDeckMode() || isTimeAttack();
 
 function setStatus(message) {
   dom.status.textContent = message;
@@ -45,17 +61,76 @@ function hideDeckOverlay() {
 }
 
 function currentResults() {
-  return isDeckMode() ? state.sessionResults : loadResults();
+  return isGameMode() ? state.sessionResults : loadResults();
 }
 
 function showStatistics(results = currentResults()) {
-  renderStatistics(results, { includeUnseen: !isDeckMode(), showTimeline: isDeckMode() });
+  renderStatistics(results, { includeUnseen: !isGameMode(), showTimeline: isGameMode() });
 }
 
 function recordResult(symbol, time) {
   const result = { symbol, time, date: new Date().toISOString() };
-  if (isDeckMode()) state.sessionResults.push(result);
+  if (isGameMode()) state.sessionResults.push(result);
   appendResult(result);
+}
+
+function timeLeft() {
+  return state.deadline - (state.clockStoppedAt ?? performance.now());
+}
+
+function renderClock(milliseconds) {
+  const seconds = Math.max(0, milliseconds) / 1000;
+  // Tenths only count near the end; whole seconds also fit on small phones.
+  const shown = seconds < LOW_TIME_SECONDS ? seconds.toFixed(1) : Math.ceil(seconds);
+  dom.timeLeft.textContent = `${shown} s`;
+  dom.timeBarFill.style.transform = `scaleX(${Math.min(1, seconds / TIME_ATTACK_SECONDS)})`;
+  dom.timeBar.classList.toggle("is-low", seconds < LOW_TIME_SECONDS);
+  dom.timeLeft.classList.toggle("is-low", seconds < LOW_TIME_SECONDS);
+}
+
+function tickClock() {
+  const left = timeLeft();
+  renderClock(left);
+  if (left <= 0) {
+    finishTimeAttack();
+    return;
+  }
+  state.clockFrame = window.requestAnimationFrame(tickClock);
+}
+
+function stopClock() {
+  window.cancelAnimationFrame(state.clockFrame);
+}
+
+function holdClock() {
+  state.clockStoppedAt = performance.now();
+}
+
+function releaseClock() {
+  if (state.clockStoppedAt === null) return;
+  state.deadline += performance.now() - state.clockStoppedAt;
+  state.clockStoppedAt = null;
+}
+
+function addTime(seconds) {
+  state.deadline += seconds * 1000;
+  renderClock(timeLeft());
+}
+
+function finishTimeAttack() {
+  stopClock();
+  window.clearTimeout(state.nextRoundTimeout);
+  state.roundResolved = true;
+  renderClock(0);
+
+  const matches = `${state.score} match${state.score === 1 ? "" : "es"}`;
+  const best = loadTimeAttackBest();
+  const isNewBest = state.score > best;
+  if (isNewBest) saveTimeAttackBest(state.score);
+  const result = isNewBest
+    ? `New personal best: ${matches}!`
+    : `${matches}. Your best is ${best}.`;
+  endDeckGame(`Time's up! ${result} Here are your statistics for this game.`, `Time's up! ${matches}`);
 }
 
 function endDeckGame(statusMessage, overlayMessage) {
@@ -74,14 +149,20 @@ function handlePick(button, symbol, shared) {
 
   if (symbol === shared) {
     state.roundResolved = true;
-    if (isDeckMode() || state.hasStartedTimer) {
+    if (state.hasStartedTimer) {
       recordResult(symbol, (performance.now() - state.timerStartedAt) / 1000);
     }
     state.hasStartedTimer = true;
     state.score += 1;
     dom.score.textContent = state.score;
     button.classList.add("is-correct");
-    setStatus("Correct! Loading the next pair...");
+    if (isTimeAttack()) {
+      holdClock();
+      addTime(TIME_BONUS_SECONDS);
+      setStatus(`Correct! +${TIME_BONUS_SECONDS} s`);
+    } else {
+      setStatus("Correct! Loading the next pair...");
+    }
     state.nextRoundTimeout = window.setTimeout(nextRound, NEXT_ROUND_DELAY);
     return;
   }
@@ -97,6 +178,11 @@ function handlePick(button, symbol, shared) {
   }
 
   flashWrong(button);
+  if (isTimeAttack()) {
+    addTime(-TIME_PENALTY_SECONDS);
+    setStatus(`Not that one: −${TIME_PENALTY_SECONDS} s!`);
+    return;
+  }
   setStatus("Not that one — keep looking!");
 }
 
@@ -121,6 +207,7 @@ function nextRound() {
   state.roundResolved = false;
   state.elapsedBeforePause = 0;
   state.timerStartedAt = performance.now();
+  if (isTimeAttack()) releaseClock();
   setStatus(DEFAULT_STATUS);
 }
 
@@ -135,7 +222,7 @@ function beginGame() {
     score: 0,
     round: 1,
     mistakes: 0,
-    hasStartedTimer: isDeckMode(),
+    hasStartedTimer: isGameMode(),
     deck: shuffle(createDeck()),
     sessionResults: [],
   });
@@ -146,19 +233,27 @@ function beginGame() {
   dom.cards.hidden = false;
   hideDeckOverlay();
   dom.statistics.hidden = true;
-  dom.pauseButton.hidden = false;
+  // Time attack has no pause: the clock is the game.
+  dom.pauseButton.hidden = isTimeAttack();
   dom.resumeButton.hidden = false;
-  dom.clearStatisticsButton.textContent = isDeckMode()
+  dom.clearStatisticsButton.textContent = isGameMode()
     ? "Clear game statistics"
     : "Clear saved statistics";
-  dom.statisticsTitle.textContent = isDeckMode() ? "Game statistics" : "Training statistics";
+  dom.statisticsTitle.textContent = isGameMode() ? "Game statistics" : "Training statistics";
   showStatistics();
+
+  if (isTimeAttack()) {
+    state.deadline = performance.now() + TIME_ATTACK_SECONDS * 1000;
+    state.clockStoppedAt = null;
+    tickClock();
+  }
 }
 
 function cancelCountdown() {
   state.countdownToken += 1;
   window.clearInterval(state.countdownInterval);
   window.clearTimeout(state.nextRoundTimeout);
+  stopClock();
 }
 
 function startDeckCountdown() {
@@ -166,6 +261,7 @@ function startDeckCountdown() {
   const token = state.countdownToken;
   dom.startDeckGameButton.disabled = true;
   dom.newGameButton.hidden = true;
+  renderClock(TIME_ATTACK_SECONDS * 1000);
   let seconds = COUNTDOWN_SECONDS;
   showDeckOverlay(`Game starts in ${seconds}...`);
   state.countdownInterval = window.setInterval(() => {
@@ -189,7 +285,7 @@ function startGame() {
     showMemorySetup();
     return;
   }
-  if (isDeckMode()) {
+  if (isGameMode()) {
     startDeckCountdown();
     return;
   }
@@ -211,8 +307,13 @@ function showMode(nextMode) {
   dom.trainingModeButton.classList.toggle("is-active", nextMode === "training");
   dom.deckModeButton.classList.toggle("is-active", nextMode === "deck");
   dom.memoryModeButton.classList.toggle("is-active", nextMode === "memory");
+  dom.timeAttackModeButton.classList.toggle("is-active", nextMode === "timeattack");
   dom.mistakesLabel.hidden = !isDeckMode();
   dom.mistakes.hidden = !isDeckMode();
+  dom.timeLeftLabel.hidden = !isTimeAttack();
+  dom.timeLeft.hidden = !isTimeAttack();
+  dom.timeBar.hidden = !isTimeAttack();
+  renderClock(TIME_ATTACK_SECONDS * 1000);
 
   if (nextMode === "memory") {
     // Memory mode runs its own rounds; keep the timed game from reacting.
@@ -225,7 +326,7 @@ function showMode(nextMode) {
     return;
   }
 
-  if (isDeckMode()) {
+  if (isGameMode()) {
     dom.cards.hidden = false;
     clearCard(dom.cardOne);
     clearCard(dom.cardTwo);
@@ -235,7 +336,16 @@ function showMode(nextMode) {
     dom.newGameButton.hidden = true;
     dom.pauseButton.hidden = true;
     dom.statistics.hidden = true;
-    setStatus("Press Start game when you are ready.");
+    if (isTimeAttack()) {
+      const best = loadTimeAttackBest();
+      setStatus(
+        `${TIME_ATTACK_SECONDS} seconds: find as many matches as you can. `
+        + `Right +${TIME_BONUS_SECONDS} s, wrong −${TIME_PENALTY_SECONDS} s.`
+        + (best ? ` Your best: ${best}.` : ""),
+      );
+    } else {
+      setStatus("Press Start game when you are ready.");
+    }
     return;
   }
 
@@ -246,7 +356,7 @@ function showMode(nextMode) {
 }
 
 function pauseGame() {
-  if (state.isPaused || state.roundResolved) return;
+  if (state.isPaused || state.roundResolved || isTimeAttack()) return;
   state.elapsedBeforePause = performance.now() - state.timerStartedAt;
   state.isPaused = true;
   setStatus("Game paused. Review your statistics below.");
@@ -257,7 +367,7 @@ function pauseGame() {
 }
 
 function resumeGame() {
-  if (!state.isPaused || (isDeckMode() && state.deck.length < 2)) return;
+  if (!state.isPaused || (isDeckMode() && state.deck.length < 2) || isTimeAttack()) return;
   state.timerStartedAt = performance.now() - state.elapsedBeforePause;
   state.isPaused = false;
   setStatus(DEFAULT_STATUS);
@@ -268,7 +378,7 @@ function resumeGame() {
 }
 
 function clearStatistics() {
-  if (isDeckMode()) {
+  if (isGameMode()) {
     state.sessionResults = [];
   } else {
     clearResults();
@@ -281,6 +391,7 @@ dom.startDeckGameButton.addEventListener("click", startDeckCountdown);
 dom.trainingModeButton.addEventListener("click", () => selectMode("training"));
 dom.deckModeButton.addEventListener("click", () => selectMode("deck"));
 dom.memoryModeButton.addEventListener("click", () => selectMode("memory"));
+dom.timeAttackModeButton.addEventListener("click", () => selectMode("timeattack"));
 dom.pauseButton.addEventListener("click", pauseGame);
 dom.resumeButton.addEventListener("click", resumeGame);
 dom.clearStatisticsButton.addEventListener("click", clearStatistics);

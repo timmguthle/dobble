@@ -1,5 +1,6 @@
 const STORAGE_KEY = "dobble-training-statistics";
 const MEMORY_TIME_KEY = "dobble-memory-time";
+const TIME_ATTACK_BEST_KEY = "dobble-time-attack-best";
 
 export function loadResults() {
   try {
@@ -37,6 +38,22 @@ export function loadMemoryTime() {
 export function saveMemoryTime(seconds) {
   try {
     localStorage.setItem(MEMORY_TIME_KEY, String(seconds));
+  } catch {
+    // See appendResult.
+  }
+}
+
+export function loadTimeAttackBest() {
+  try {
+    return Number(localStorage.getItem(TIME_ATTACK_BEST_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function saveTimeAttackBest(score) {
+  try {
+    localStorage.setItem(TIME_ATTACK_BEST_KEY, String(score));
   } catch {
     // See appendResult.
   }

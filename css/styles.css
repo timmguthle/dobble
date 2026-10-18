@@ -85,6 +85,7 @@ h1 {
   display: block;
   font-size: 1.7rem;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .score-panel strong + span {
@@ -125,6 +126,7 @@ h1 {
   cursor: pointer;
   font-weight: 800;
   padding: 10px 18px;
+  white-space: nowrap;
 }
 
 .mode-button.is-active {
@@ -309,6 +311,19 @@ h1 {
   border-radius: inherit;
   height: 100%;
   transform-origin: left;
+}
+
+/* Time attack's clock: a full bar is the starting time. */
+.time-bar {
+  margin: 0 auto 24px;
+}
+
+.time-bar.is-low .memory-timer-bar {
+  background: #d93a2b;
+}
+
+.score-panel strong.is-low {
+  color: #d93a2b;
 }
 
 .memory-timer-bar.is-running {
@@ -1010,6 +1025,18 @@ kbd {
     padding: 6px 14px;
   }
 
+  /* Four modes on a narrow phone. */
+  @media (max-width: 420px) {
+    .mode-switch {
+      gap: 0;
+    }
+
+    .mode-button {
+      font-size: 0.8rem;
+      padding: 6px 9px;
+    }
+  }
+
   .cards {
     flex-direction: column;
     gap: var(--card-gap);
@@ -1036,6 +1063,10 @@ kbd {
 
   .home-choices {
     grid-template-columns: 1fr;
+  }
+
+  .time-bar {
+    margin-bottom: 10px;
   }
 
   .duel-bar {
@@ -1147,6 +1178,7 @@ kbd {
   }
 
   .game-header {
+    flex-wrap: wrap;
     gap: 8px;
     grid-area: header;
   }
@@ -1208,6 +1240,10 @@ kbd {
 
   .mp-board {
     gap: 12px;
+  }
+
+  .time-bar {
+    margin: 0;
   }
 
   .duel-player {
