@@ -729,21 +729,43 @@ h1 {
   }
 }
 
-/* Phones held sideways: keep the cards side by side and let them use the
-   full height of the short screen. */
+/* Phones held sideways: the screen is too short for anything above the
+   cards, so the title, status, mode switch and buttons move into a narrow
+   column on the left and the cards fill the full height on the right.
+   js/fit.js sizes the cards to the measured space. */
 @media (max-height: 560px) and (orientation: landscape) {
   :root {
-    --card-size: min(calc((100vw - 80px) / 2), calc(100vh - 150px));
+    --sidebar-width: 180px;
+    --card-size: min(calc((100vw - var(--sidebar-width) - 80px) / 2), calc(100vh - 30px));
   }
 
   @supports (height: 100svh) {
     :root {
-      --card-size: min(calc((100vw - 80px) / 2), calc(100svh - 150px));
+      --card-size: min(calc((100vw - var(--sidebar-width) - 80px) / 2), calc(100svh - 30px));
     }
   }
 
   .game-shell {
-    padding-top: 12px;
+    align-content: start;
+    column-gap: 20px;
+    display: grid;
+    grid-template-areas:
+      "header board"
+      "status board"
+      "modes board"
+      "controls board"
+      ". board"
+      "stats stats";
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto 1fr auto;
+    padding: 12px max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+    width: 100%;
+  }
+
+  .game-header {
+    gap: 8px;
+    grid-area: header;
   }
 
   .eyebrow {
@@ -751,19 +773,21 @@ h1 {
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .score-panel {
-    padding: 4px 12px;
+    padding: 4px 10px;
   }
 
   .score-panel strong {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .instructions {
-    margin: 0 auto 8px;
+    grid-area: status;
+    margin: 8px 0;
+    text-align: left;
   }
 
   .instructions h2 {
@@ -775,15 +799,48 @@ h1 {
   }
 
   .mode-switch {
-    margin-bottom: 12px;
+    border-radius: 18px;
+    flex-direction: column;
+    grid-area: modes;
+    margin: 0 0 10px;
+    width: 100%;
   }
 
   .mode-button {
-    padding: 6px 14px;
+    padding: 5px 14px;
+  }
+
+  .board {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    grid-area: board;
+  }
+
+  .memory {
+    width: 100%;
+  }
+
+  /* Keep all three rows of choices on screen. */
+  .memory-choices {
+    margin: 0 auto;
+    width: min(100%, calc((100vh - 100px) * 5 / 3));
+  }
+
+  @supports (height: 100svh) {
+    .memory-choices {
+      width: min(100%, calc((100svh - 100px) * 5 / 3));
+    }
+  }
+
+  .memory-reveal {
+    padding: 12px 28px;
   }
 
   .cards {
-    gap: 24px;
+    flex-direction: row;
+    gap: 20px;
   }
 
   .card {
@@ -796,6 +853,22 @@ h1 {
   }
 
   .controls {
-    margin-top: 24px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+    grid-area: controls;
+    margin: 0;
+  }
+
+  .button {
+    padding: 8px 18px;
+  }
+
+  .round-counter {
+    text-align: center;
+  }
+
+  .statistics {
+    grid-area: stats;
   }
 }
