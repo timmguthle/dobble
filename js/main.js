@@ -1,6 +1,7 @@
 import { renderCard, clearCard } from "./card.js";
 import { createDeck, sharedSymbol, shuffle } from "./deck.js";
 import { dom } from "./dom.js";
+import { initCardFit } from "./fit.js";
 import { enterMemoryMode, exitMemoryMode, showMemorySetup } from "./memory.js";
 import { renderStatistics } from "./statistics.js";
 import { appendResult, clearResults, loadResults } from "./storage.js";
@@ -285,3 +286,4 @@ dom.resumeButton.addEventListener("click", resumeGame);
 dom.clearStatisticsButton.addEventListener("click", clearStatistics);
 
 beginGame();
+initCardFit();
